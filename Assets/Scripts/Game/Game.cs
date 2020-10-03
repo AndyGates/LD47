@@ -37,7 +37,12 @@ public class Game : MonoBehaviour
 
         _map.MarkNodeRoutesAsDiscovered(_startNodeId);
 
+        _actionSelectionScreen.ActionSelected += ApplyAction;
+
         GameData.ResetAll();
+
+        GameData.Action = GameAction.Travel;
+        GameData.State = GameState.ConfiguringAction;
     }
 
     void Update()
@@ -78,14 +83,24 @@ public class Game : MonoBehaviour
         else
         {
             GameData.State = GameState.ChoosingAction;
-            
-            _routeSelectionScreen.SetActive(false);
-
-            _actionSelectionScreen.gameObject.SetActive(true);
-            _actionSelectionScreen.Show(null);
+            ShowActionSelectionScreen();
         }
 
         _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
+    }
+
+    void ShowActionSelectionScreen()
+    {              
+        _routeSelectionScreen.SetActive(false);
+
+        _actionSelectionScreen.gameObject.SetActive(true);
+        _actionSelectionScreen.Show(null);
+    }
+
+    void ShowRouteSelectionScreen()
+    {
+        _actionSelectionScreen.gameObject.SetActive(false);
+        _routeSelectionScreen.SetActive(true);
     }
 
     void StartAnomaly()
@@ -95,19 +110,19 @@ public class Game : MonoBehaviour
     }
 
     void OnPlayerAnomalyComplete()
-    {
-        GameData.State = GameState.ChoosingAction;
+{
+        GameData.Action = GameAction.Travel;
+        GameData.State = GameState.ConfiguringAction;
         GameData.ResetAnomaly();
 
         Debug.Log("Anomaly completed");
     }
 
-    void ApplyAction()
+    void ApplyAction(Action action)
     {
         // TODO Do action stuff
 
-        _actionSelectionScreen.gameObject.SetActive(false);
-        _routeSelectionScreen.SetActive(true);
+        ShowRouteSelectionScreen();
 
         // Action completed now allow user to select node or retract to home
         if(false == GameData.HasOperationTimeLeft)

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ActionSelectionScreen : MonoBehaviour
 {
+    public event System.Action<Action> ActionSelected;
+
     [SerializeField]
     ActionListView _actionList;
 
     Node _currentNode;
 
-    public void Start()
+    public void Awake()
     {
         _actionList.ActionSelected += OnActionSelected;
     }
@@ -28,6 +30,6 @@ public class ActionSelectionScreen : MonoBehaviour
 
     public void OnActionSelected(Action action)
     {
-        //perform action with node
+        ActionSelected?.Invoke(action);
     }
 }

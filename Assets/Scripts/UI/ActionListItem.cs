@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ActionListItem : MonoBehaviour
 {
+    public event System.Action Selected;
 
     [SerializeField]
     Image _fuelIcon;
@@ -25,9 +26,7 @@ public class ActionListItem : MonoBehaviour
     Text _nameText;
 
     public void SetData(string name, int time, int fuel, int resources)
-    {
-        Debug.Log("Setting action data");
-        
+    {       
         _fuelIcon.enabled = fuel != 0;
         _fuelText.enabled = fuel != 0;
         _fuelText.text = fuel.ToString();
@@ -42,6 +41,6 @@ public class ActionListItem : MonoBehaviour
 
     public void OnClicked()
     {
-        Debug.Log("Button pressed");
+        Selected?.Invoke();
     }
 }

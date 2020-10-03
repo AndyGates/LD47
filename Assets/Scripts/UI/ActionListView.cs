@@ -17,8 +17,6 @@ public class ActionListView : MonoBehaviour
 
     public void SetActions(List<Action> actions)
     {
-        Debug.Log("Setting list actions");
-
         foreach(Transform child in transform)
         {
             Destroy(child.gameObject);
@@ -32,6 +30,7 @@ public class ActionListView : MonoBehaviour
 
             Action act = actions[i];
             item.SetData(act.Text, act.Time, act.Fuel, act.Resources);
+            item.Selected += () => ActionSelected?.Invoke(act);
         }
     }
 }
