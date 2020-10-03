@@ -40,22 +40,36 @@ public class Player : MonoBehaviour
         return node.Id != _currentNodeId && _map.IsRouteAvailble(_currentNodeId, node.Id);
     }
 
-    public TravelCost TravelToNode(Node node)
+    public int CalculateTravelTime(Route route)
     {
-        Route route = _map.FindRoute(_currentNodeId, node.Id);
-        _currentNodeId = node.Id;
-
         int travelFactor = _traveledTravelFactor;
-
         if(route.State == RouteState.Untraveled)
         {
-            route.State = RouteState.Traveled;
             travelFactor = _untraveledTravelFactor;
         }
 
-        int travelTime = route.TravelTime * travelFactor;
+        return route.TravelTime * travelFactor;
+    }
 
-        Vector3 to = _map.GetNodeCoords(_currentNodeId);
+    public TravelCost CalculateTravelCost(Node node)
+    {
+        Route route = _map.FindRoute(_currentNodeId, node.Id);
+
+        return new TravelCost()
+        {
+            Time = CalculateTravelTime(route),
+            Fuel = route.FuelCost,
+            Health = route.HealthCost
+        };
+    }
+
+    public TravelCost TravelToNode(Node node)
+    {
+        Route route = _map.FindRoute(_currentNodeId, node.Id);
+
+        int travelTime = CalculateTravelTime(route);
+
+        Vector3 to = _map.GetNodeCoords(node.Id);
 
         transform.right = (to - transform.position).normalized;
 
@@ -66,10 +80,14 @@ public class Player : MonoBehaviour
             "easeType", _easeMethod)
         );
 
+        _currentNodeId = node.Id;
+        route.State = RouteState.Traveled;
+
         return new TravelCost()
         {
             Time = travelTime,
-            Fuel = route.FuelCost
+            Fuel = route.FuelCost,
+            Health = route.HealthCost
         };
     }
 

@@ -18,17 +18,20 @@ public class Route
 
     public int FuelCost { get; }
 
+    public int HealthCost { get; }
+
     RouteState _state = RouteState.Undiscovered;
     public RouteState State { get => _state; set => ChangeState(value, _state); }
 
     public event System.Action<Route> StateChanged;
 
-    public Route(int from, int to, int travelTime, int fuelCost)
+    public Route(int from, int to, int travelTime, int fuelCost, int healthCost)
     {
         From = from;
         To = to;
         TravelTime = travelTime;
         FuelCost = fuelCost;
+        HealthCost = healthCost;
     }
 
     public void TravelRoute()

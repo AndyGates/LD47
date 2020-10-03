@@ -85,7 +85,8 @@ public class Map : MonoBehaviour
                 routeDto.From, 
                 routeDto.To, 
                 routeDto.TravelTime, 
-                routeDto.FuelCost
+                routeDto.FuelCost,
+                routeDto.HealthCost
             );
             CreateRouteVisual(route);
 
