@@ -1,0 +1,120 @@
+---
+
+# node types: 0 = home, 1 = goal, 2 = base
+
+nodes:
+  - name: Home
+    id: 0
+    type: 0
+    coords:
+      x: 0
+      y: 1
+    properties:
+      brap: derp
+
+  - name: Row01
+    id: 1
+    type: 2
+    coords:
+      x: -2.5
+      y: 3
+
+  - name: Row01
+    id: 2
+    type: 2
+    coords:
+      x: 0
+      y: 3
+
+  - name: Row01
+    id: 3
+    type: 2
+    coords:
+      x: 2.5
+      y: 3
+
+  - name: Row02
+    id: 4
+    type: 2
+    coords:
+      x: -5
+      y: 7
+
+  - name: Row02
+    id: 5
+    type: 2
+    coords:
+      x: -2.5
+      y: 7
+
+  - name: Row02
+    id: 6
+    type: 2
+    coords:
+      x: 0
+      y: 7
+
+  - name: Row02
+    id: 7
+    type: 2
+    coords:
+      x: 2.5
+      y: 7
+
+  - name: Row02
+    id: 8
+    type: 2
+    coords:
+      x: 5
+      y: 7
+
+  - name: Goal
+    id: 100
+    type: 1
+    coords:
+      x: 5
+      y: 13
+
+routes:
+  - from: 0
+    to: 1
+    travel_time: 2.0
+  - from: 0
+    to: 2
+    travel_time: 2.0
+  - from: 0
+    to: 3
+    travel_time: 2.0
+  - from: 1
+    to: 2
+    travel_time: 2.0
+  - from: 1
+    to: 4
+    travel_time: 2.0
+  - from: 1
+    to: 5
+    travel_time: 2.0
+  - from: 2
+    to: 6
+    travel_time: 2.0
+  - from: 3
+    to: 7
+    travel_time: 2.0
+  - from: 3
+    to: 8
+    travel_time: 2.0
+  - from: 8
+    to: 100
+    travel_time: 2.0
+  - from: 7
+    to: 100
+    travel_time: 2.0
+  - from: 6
+    to: 100
+    travel_time: 2.0
+  - from: 5
+    to: 100
+    travel_time: 2.0
+  - from: 4
+    to: 100
+    travel_time: 2.0
