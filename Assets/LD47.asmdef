@@ -1,7 +1,8 @@
 {
     "name": "LD47",
     "references": [
-        "GUID:b3f49edfedc855a48aa1a9e5d3cba438"
+        "GUID:b3f49edfedc855a48aa1a9e5d3cba438",
+        "GUID:476f7c6c6dfeed041b063446a926e656"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -10,10 +10,7 @@ public class LineRenderer : MonoBehaviour
     Material _lineMaterial = null;
 
     [SerializeField]
-    RawImage _image = null;
-
-    [SerializeField]
-    Vector2 _scale = new Vector2(6, 4);
+    UnityEngine.U2D.PixelPerfectCamera _camera = null;
 
     struct Line
     {
@@ -23,19 +20,28 @@ public class LineRenderer : MonoBehaviour
     }
     List<Line> Lines = new List<Line>();
 
+    float _width;
+    float _height;
+
+    void Awake()
+    {
+        Camera camera = GetComponent<Camera>();
+        _width = camera.pixelWidth;
+        _height = camera.pixelHeight;
+    }
+
     void OnPostRender()
     {
         GL.PushMatrix();
+        GL.LoadPixelMatrix(0, _width, 0, _height);
         _lineMaterial.SetPass(0);
-        
-        GL.LoadPixelMatrix(0, 400, 0, 225);
 
         foreach(Line line in Lines)
         {
             GL.Begin(GL.LINES);
             GL.Color(line.Color);
-            GL.Vertex(ToScreenSpace(line.From));
-            GL.Vertex(ToScreenSpace(line.To));
+            GL.Vertex(ToPixelSpace(line.From));
+            GL.Vertex(ToPixelSpace(line.To));
             GL.End();
         }
 
@@ -44,10 +50,16 @@ public class LineRenderer : MonoBehaviour
         Lines.Clear();
     }
 
-    Vector2 ToScreenSpace(Vector2 p)
+    Vector2 ToPixelSpace(Vector2 p)
     {
+        float worldToPixel = _camera.assetsPPU * 2.0f;
 
-        return new Vector2((((p.x / _scale.x) + 1.0f) / 2.0f) * 400, (((p.y / _scale.y) + 1.0f) / 2.0f) * 225);
+        return new Vector2(ToPixelSpace(p.x, _width, worldToPixel), ToPixelSpace(p.y, _height, worldToPixel));
+    }
+
+    float ToPixelSpace(float v, float dim, float worldToPixel)
+    {
+        return ((((v * worldToPixel) / dim) + 1.0f) / 2.0f) * dim;
     }
 
     public void RenderLine(Vector2 from, Vector2 to, Color color)
