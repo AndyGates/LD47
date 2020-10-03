@@ -14,13 +14,13 @@ public class Game : MonoBehaviour
     Player _player = null;
 
     [SerializeField]
+    int _goalNodeType = 5;
+
+	[SerializeField]
     GameObject _routeSelectionScreen = null; 
 
     [SerializeField]
     ActionSelectionScreen _actionSelectionScreen = null;
-
-    int _operationTime = 0;
-    int _maxOperationTime = 6;
 
     int _startNodeId = 0;
 
@@ -33,9 +33,11 @@ public class Game : MonoBehaviour
 
         _player.SetAtNodeId(_startNodeId);
         _player.TravelComplete += OnPlayerTravelComplete;
-        _player.RetractHomeComplete += OnPlayerRetractHomeComplete;
+        _player.RetractHomeComplete += OnPlayerAnomalyComplete;
 
         _map.MarkNodeRoutesAsDiscovered(_startNodeId);
+
+        GameData.ResetAll();
     }
 
     void Update()
@@ -44,21 +46,31 @@ public class Game : MonoBehaviour
 
     void OnNodeSelected(Node node)
     {
-        if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel && 
-            _player.CanTravelToNode(node))
+        if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel)
         {
-            // TODO: Validate if we have enough time/fuel left to do this travel
-            TravelCost cost = _player.TravelToNode(node);
-            GameData.ApplyTravelCost(cost);
-            GameData.State = GameState.RunningAction;
+            bool canTravel = _player.CanTravelToNode(node);
+            TravelCost cost = _player.CalculateTravelCost(node);
+            bool canAffordTravel = GameData.CanAffordTravel(cost);
+            if(canTravel && canAffordTravel)
+            {
+                _player.TravelToNode(node);
+                GameData.ApplyTravelCost(cost);
+                GameData.State = GameState.RunningAction;
+
+                Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+            }
+            else
+            {
+                Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
+            }
         }
     }
 
     void OnPlayerTravelComplete()
     {
-        Debug.Log($"Travel completed. {_maxOperationTime - _operationTime}s of travel time left");
+        Debug.Log($"Travel completed. {GameData.OperationTime}s of travel time left");
 
-        if(_map.GetNodeType(_player.GetCurrentNodeId()) == 1)
+        if(_map.GetNodeType(_player.GetCurrentNodeId()) == _goalNodeType)
         {
             Debug.Log("Well done you escaped the loop");
             GameData.State = GameState.Complete;
@@ -76,16 +88,18 @@ public class Game : MonoBehaviour
         _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
     }
 
-    void RetractHome()
+    void StartAnomaly()
     {
-        _player.RetractToHome();
+        _player.StartAnomaly();
         GameData.State = GameState.RetractingHome;
     }
 
-    void OnPlayerRetractHomeComplete()
+    void OnPlayerAnomalyComplete()
     {
         GameData.State = GameState.ChoosingAction;
-        GameData.Reset();
+        GameData.ResetAnomaly();
+
+        Debug.Log("Anomaly completed");
     }
 
     void ApplyAction()
@@ -96,10 +110,10 @@ public class Game : MonoBehaviour
         _routeSelectionScreen.SetActive(true);
 
         // Action completed now allow user to select node or retract to home
-        if(GameData.HasOperationTimeLeft)
+        if(false == GameData.HasOperationTimeLeft)
         {
-            Debug.Log("Ran out of travel time. Retracting to home.");
-            RetractHome();
+            Debug.Log("Ran out of travel time. Anomaly starting...");
+            StartAnomaly();
         }
         else
         {

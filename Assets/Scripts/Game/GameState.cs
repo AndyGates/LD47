@@ -31,22 +31,40 @@ public class GameStateData
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
 
-    public int MaxOperationTime { get => 10; }
+    public int MaxOperationTime { get => 12; }
     public int MaxFuel{  get => 100; }
-    public int MaxHealth { get => 10; }
+    public int MaxResources { get => 25; }
+    public int MaxHealth { get => 100; }
 
-    public bool HasOperationTimeLeft{ get => OperationTime >= MaxOperationTime; }
+    public bool HasOperationTimeLeft{ get => OperationTime > 0; }
+    public bool HasFuelLeft{ get => Fuel > 0; }
+    public bool HasResourcesLeft{ get => Resources > 0; }
+    public bool HasHealthLeft{ get => Health > 0; }
 
-    public void Reset()
+    public void ResetAll()
     {
         OperationTime = MaxOperationTime;
         Fuel = MaxFuel;
         Health = MaxHealth;
+        Resources = MaxResources;
+    }
+
+    public void ResetAnomaly()
+    {
+        OperationTime = MaxOperationTime;
     }
 
     public void ApplyTravelCost(TravelCost cost)
     {
         OperationTime -= cost.Time;
         Fuel -= cost.Fuel;
+        Health -= cost.Health;
+    }
+
+    public bool CanAffordTravel(TravelCost cost)
+    {
+        return OperationTime - cost.Time >= 0 &&
+            Fuel - cost.Fuel >= 0 &&
+            Health - cost.Health >= 0;
     }
 }
