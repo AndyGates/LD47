@@ -34,11 +34,12 @@ public class LineRenderer : MonoBehaviour
     {
         GL.PushMatrix();
         GL.LoadPixelMatrix(0, _width, 0, _height);
-        _lineMaterial.SetPass(0);
-
+        
         foreach(Line line in Lines)
         {
             GL.Begin(GL.LINES);
+            _lineMaterial.color = line.Color;
+            _lineMaterial.SetPass(0);
             GL.Color(line.Color);
             GL.Vertex(ToPixelSpace(line.From));
             GL.Vertex(ToPixelSpace(line.To));

@@ -83,6 +83,19 @@ public class Map : MonoBehaviour
             _routes.Add(route);
         }
     }
+    public void MarkNodeRoutesAsDiscovered(int nodeId)
+    {
+        foreach(Route route in _routes)
+        {
+            if(route.From == nodeId)
+            {
+                if(route.State == RouteState.Undiscovered)
+                {
+                    route.State = RouteState.Untraveled;
+                }
+            }
+        }
+    }
 
     GameObject CreateNodeVisual(Node node)
     {
@@ -91,8 +104,6 @@ public class Map : MonoBehaviour
         NodeInteraction interact = go.AddComponent<NodeInteraction>();
         interact.Node = node;
         interact.NodeSelected += OnNodeSelected;
-
-        go.AddComponent<NodeVisual>();
 
         return go;
     }

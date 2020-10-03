@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum RouteState
 {
-    Untraveled,
+    Undiscovered,
+    Untraveled,     // Discovered but untraveled
     Traveled,
 }
 
@@ -17,7 +18,7 @@ public class Route
 
     public float FuelCost { get; }
 
-    RouteState _state = RouteState.Untraveled;
+    RouteState _state = RouteState.Undiscovered;
     public RouteState State { get => _state; set => ChangeState(value, _state); }
 
     public event System.Action<Route> StateChanged;
@@ -39,6 +40,6 @@ public class Route
     {
         _state = newState;
 
-        StateChanged.Invoke(this);
+        StateChanged?.Invoke(this);
     }
 }

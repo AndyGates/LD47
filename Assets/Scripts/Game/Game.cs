@@ -16,6 +16,8 @@ public class Game : MonoBehaviour
     float _operationTime = 0.0f;
     float _maxOperationTime = 6.0f;
 
+    int _startNodeId = 0;
+
     GameStateData GameData { get; set; } = new GameStateData();
 
     void Awake()
@@ -23,9 +25,11 @@ public class Game : MonoBehaviour
         _map.LoadMap(_mapData);
         _map.NodeSelected += OnNodeSelected;
 
-        _player.SetAtNodeId(0);
+        _player.SetAtNodeId(_startNodeId);
         _player.TravelComplete += OnPlayerTravelComplete;
         _player.RetractHomeComplete += OnPlayerRetractHomeComplete;
+
+        _map.MarkNodeRoutesAsDiscovered(_startNodeId);
     }
 
     void Update()
@@ -63,6 +67,8 @@ public class Game : MonoBehaviour
         {
             GameData.State = GameState.ChoosingAction;
         }
+
+        _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
     }
 
     void RetractHome()

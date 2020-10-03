@@ -24,8 +24,11 @@ public class RouteVisual : MonoBehaviour
 
     void Update()
     {
-        Color color = Route.State == RouteState.Traveled ? _traveledColor : _untraveledColor;
-        _renderer.RenderLine(_from, _to, color);
+        if(Route.State != RouteState.Undiscovered)
+        {
+            Color color = Route.State == RouteState.Traveled ? _traveledColor : _untraveledColor;
+            _renderer.RenderLine(_from, _to, color);
+        }
     }
 
     public void Set(Vector2 from, Vector2 to)

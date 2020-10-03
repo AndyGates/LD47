@@ -5,27 +5,27 @@ using UnityEngine;
 public class NodeVisual : MonoBehaviour
 {
     [SerializeField]
-    Color _color = Color.yellow;
-
-    [SerializeField]
-    Color _hoverColor = Color.cyan;
-
-    SpriteRenderer _renderer = null;
+    GameObject _outline;
 
     void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
-
-        _color = _renderer.color;
+        if(_outline == null)
+        {
+            enabled = false;
+        }
+        else
+        {
+            _outline.SetActive(false);
+        }
     }
 
     void OnMouseOver()
     {
-        _renderer.color = _hoverColor;
+        _outline.SetActive(true);
     }
 
     void OnMouseExit()
     {
-        _renderer.color = _color;
+        _outline.SetActive(false);
     }
 }
