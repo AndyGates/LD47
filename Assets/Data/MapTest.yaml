@@ -1,0 +1,82 @@
+---
+
+# node types: 0 = home, 1 = goal, 2 = base
+
+nodes:
+  - name: Home
+    id: 0
+    type: 1
+    coords:
+      x: -5.36
+      y: 0
+    properties:
+      brap: derp
+
+  - name: Asteroid01
+    id: 1
+    type: 2
+    coords:
+      x: -3
+      y: 1.03
+
+  - name: BluePlanet01
+    id: 2
+    type: 0
+    coords:
+      x: -0.99
+      y: -1.99
+
+  - name: RedPlanet01
+    id: 3
+    type: 1
+    coords:
+      x: 1.55
+      y: 1.53
+
+  - name: Asteroid02
+    id: 4
+    type: 3
+    coords:
+      x: 2.99
+      y: -2.07
+
+  - name: BluePlanet02
+    id: 100
+    type: 
+    coords:
+      x: 5.41
+      y: 0
+
+routes:
+  - from: 0
+    to: 1
+    travel_time: 2.0
+  - from: 0
+    to: 2
+    travel_time: 2.0
+  - from: 1
+    to: 2
+    travel_time: 2.0
+  - from: 1
+    to: 3
+    travel_time: 2.0
+  - from: 2
+    to: 1
+    travel_time: 2.0
+  - from: 2
+    to: 3
+  - from: 3
+    to: 1
+    travel_time: 2.0
+  - from: 3
+    to: 2
+    travel_time: 2.0
+  - from: 3
+    to: 4
+    travel_time: 2.0
+  - from: 4
+    to: 3
+    travel_time: 2.0
+  - from: 4
+    to: 100
+    travel_time: 2.0

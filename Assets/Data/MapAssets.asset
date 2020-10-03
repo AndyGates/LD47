@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nodeAssets:
   - Type: 0
-    Prefab: {fileID: 2416943200039489121, guid: 6d9ecaf73264d5e47b28795d9bb66e5b, type: 3}
+    Prefab: {fileID: 8781554863754062921, guid: 19edf6588c2c53247ad3b90d1b05b965, type: 3}
   - Type: 1
-    Prefab: {fileID: 7715598974378177371, guid: 5ccb0d8f3a447e74591583278e5dcafe, type: 3}
+    Prefab: {fileID: 6876317147119320566, guid: 8be0ef481c4f7d8449fe6a719bc0a61a, type: 3}
   - Type: 2
-    Prefab: {fileID: 3567084318247997841, guid: 2ab5efedf648efb4f964e7f4c60c765b, type: 3}
+    Prefab: {fileID: 5460630184686068255, guid: b2245108e42bfd64c891c2b502d131eb, type: 3}
+  - Type: 3
+    Prefab: {fileID: 1785829404068862772, guid: 554b5087cc3009142adafdb090457831, type: 3}

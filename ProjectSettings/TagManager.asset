@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1289262921
+    locked: 0
+  - name: Nodes
+    uniqueID: 834015783
+    locked: 0
+  - name: Player
+    uniqueID: 1987317075
+    locked: 0
+  - name: Overlay
+    uniqueID: 1794624431
+    locked: 0
