@@ -14,6 +14,7 @@ public class Map : MonoBehaviour
 
     public event System.Action<Route> RouteSelected;
     public event System.Action<Node> NodeSelected;
+    public event System.Action<Node, bool> NodeHover;
 
     Dictionary<int, Node> _nodes;
     List<Route> _routes;
@@ -114,6 +115,7 @@ public class Map : MonoBehaviour
         NodeInteraction interact = go.AddComponent<NodeInteraction>();
         interact.Node = node;
         interact.NodeSelected += OnNodeSelected;
+        interact.NodeHover += OnNodeHover;
 
         return go;
     }
@@ -141,5 +143,10 @@ public class Map : MonoBehaviour
     void OnNodeSelected(Node node)
     {
         NodeSelected?.Invoke(node);
+    }
+
+    void OnNodeHover(Node node, bool exit)
+    {
+        NodeHover?.Invoke(node, exit);
     }
 }

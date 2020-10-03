@@ -22,6 +22,9 @@ public class Game : MonoBehaviour
     [SerializeField]
     ActionSelectionScreen _actionSelectionScreen = null;
 
+    [SerializeField]
+    NodeOverviewUI _nodeOverviewUI = null;
+
     int _startNodeId = 0;
 
     GameStateData GameData { get; set; } = new GameStateData();
@@ -30,6 +33,7 @@ public class Game : MonoBehaviour
     {
         _map.LoadMap(_mapData);
         _map.NodeSelected += OnNodeSelected;
+        _map.NodeHover += OnNodeHover;
 
         _player.SetAtNodeId(_startNodeId);
         _player.TravelComplete += OnPlayerTravelComplete;
@@ -43,10 +47,6 @@ public class Game : MonoBehaviour
 
         GameData.Action = GameAction.Travel;
         GameData.State = GameState.ConfiguringAction;
-    }
-
-    void Update()
-    {
     }
 
     void OnNodeSelected(Node node)
@@ -69,6 +69,12 @@ public class Game : MonoBehaviour
                 Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
             }
         }
+    }
+
+    void OnNodeHover(Node node, bool exited)
+    {
+        _nodeOverviewUI.gameObject.SetActive(!exited);
+        _nodeOverviewUI.SetNode(node);
     }
 
     void OnPlayerTravelComplete()
