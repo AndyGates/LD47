@@ -25,11 +25,15 @@ public class GameStateData
 {
     public GameState State { get; set; } = GameState.ChoosingAction;
     public GameAction Action{ get; set; } = GameAction.None;
-    public float OperationTime { get; set; } // The amount of time availble for operations
-    public float Fuel { get; set; } // The amount of fuel left
 
-    public float MaxOperationTime{ get => 10.0f; }
-    public float MaxFuel{ get => 100.0f; }
+    public int OperationTime { get; set; } // The amount of time availble for operations
+    public int Fuel { get; set; } // The amount of fuel left
+    public int Resources { get; set; } // The amount of resources left
+    public int Health { get; set; } // The amount of health left
+
+    public int MaxOperationTime { get => 10; }
+    public int MaxFuel{  get => 100; }
+    public int MaxHealth { get => 10; }
 
     public bool HasOperationTimeLeft{ get => OperationTime >= MaxOperationTime; }
 
@@ -37,6 +41,7 @@ public class GameStateData
     {
         OperationTime = MaxOperationTime;
         Fuel = MaxFuel;
+        Health = MaxHealth;
     }
 
     public void ApplyTravelCost(TravelCost cost)

@@ -10,11 +10,20 @@ public class Node
 
     public Vector2 Coords{ get; }
 
-    public Node(int id, int type, Vector2 coords)
+    public int Fuel { get; }
+
+    public int Resources { get; }
+
+    public int BuildingSpaces { get; }
+
+    public Node(int id, int type, Vector2 coords, int fuel, int resources, int buildingSpaces)
     {
         Id = id;
         Type = type;
         Coords = coords;
+        Fuel = fuel;
+        Resources = resources;
+        BuildingSpaces = buildingSpaces;
     }
 
 }

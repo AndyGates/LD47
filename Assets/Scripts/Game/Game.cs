@@ -13,8 +13,8 @@ public class Game : MonoBehaviour
     [SerializeField]
     Player _player = null;
 
-    float _operationTime = 0.0f;
-    float _maxOperationTime = 6.0f;
+    int _operationTime = 0;
+    int _maxOperationTime = 6;
 
     int _startNodeId = 0;
 

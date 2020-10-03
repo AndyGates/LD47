@@ -62,7 +62,7 @@ public class Map : MonoBehaviour
         _nodes = new Dictionary<int, Node>(mapDto.Nodes.Count);
         foreach(NodeDto nodeDto in mapDto.Nodes)
         {
-            Node node = new Node(nodeDto.Id, nodeDto.Type, nodeDto.Coords);
+            Node node = new Node(nodeDto.Id, nodeDto.Type, nodeDto.Coords, nodeDto.Fuel, nodeDto.Resources, nodeDto.BuildingSpaces);
             CreateNodeVisual(node);
 
             _nodes[nodeDto.Id] = node;

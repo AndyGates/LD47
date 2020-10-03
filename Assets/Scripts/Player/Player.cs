@@ -8,10 +8,10 @@ public class Player : MonoBehaviour
     Map _map = null;
 
     [SerializeField]
-    float _traveledTravelFactor = 1.0f;
+    int _traveledTravelFactor = 1;
 
     [SerializeField]
-    float _untraveledTravelFactor = 3.0f;
+    int _untraveledTravelFactor = 3;
 
     [SerializeField]
     float _retractHomeTravelSpeed = 2.0f;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         Route route = _map.FindRoute(_currentNodeId, node.Id);
         _currentNodeId = node.Id;
 
-        float travelFactor = _traveledTravelFactor;
+        int travelFactor = _traveledTravelFactor;
 
         if(route.State == RouteState.Untraveled)
         {
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
             travelFactor = _untraveledTravelFactor;
         }
 
-        float travelTime = route.TravelTime * travelFactor;
+        int travelTime = route.TravelTime * travelFactor;
 
         Vector3 to = _map.GetNodeCoords(_currentNodeId);
 

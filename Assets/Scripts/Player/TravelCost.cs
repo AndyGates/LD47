@@ -4,6 +4,6 @@ using UnityEngine;
 
 public struct TravelCost
 {
-    public float Time { get; set; }
-    public float Fuel { get; set; }
+    public int Time { get; set; }
+    public int Fuel { get; set; }
 }
