@@ -13,6 +13,12 @@ public class Game : MonoBehaviour
     [SerializeField]
     Player _player = null;
 
+    [SerializeField]
+    GameObject _routeSelectionScreen = null; 
+
+    [SerializeField]
+    ActionSelectionScreen _actionSelectionScreen = null;
+
     int _operationTime = 0;
     int _maxOperationTime = 6;
 
@@ -34,12 +40,6 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        // HACKS
-        if(GameData.State == GameState.ChoosingAction)
-        {
-            Debug.Log("Skipping user select action");
-            ApplyAction();
-        }
     }
 
     void OnNodeSelected(Node node)
@@ -66,6 +66,11 @@ public class Game : MonoBehaviour
         else
         {
             GameData.State = GameState.ChoosingAction;
+            
+            _routeSelectionScreen.SetActive(false);
+
+            _actionSelectionScreen.gameObject.SetActive(true);
+            _actionSelectionScreen.Show(null);
         }
 
         _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
@@ -86,6 +91,9 @@ public class Game : MonoBehaviour
     void ApplyAction()
     {
         // TODO Do action stuff
+
+        _actionSelectionScreen.gameObject.SetActive(false);
+        _routeSelectionScreen.SetActive(true);
 
         // Action completed now allow user to select node or retract to home
         if(GameData.HasOperationTimeLeft)
