@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
 
         _player.SetAtNodeId(_startNodeId);
         _player.TravelComplete += OnPlayerTravelComplete;
-        _player.RetractHomeComplete += OnPlayerRetractHomeComplete;
+        _player.RetractHomeComplete += OnPlayerAnomalyComplete;
 
         _map.MarkNodeRoutesAsDiscovered(_startNodeId);
 
@@ -50,7 +50,7 @@ public class Game : MonoBehaviour
         {
             bool canTravel = _player.CanTravelToNode(node);
             TravelCost cost = _player.CalculateTravelCost(node);
-            bool canAffordTravel = GameData.CanTakeTravelCost(cost);
+            bool canAffordTravel = GameData.CanAffordTravel(cost);
             if(canTravel && canAffordTravel)
             {
                 _player.TravelToNode(node);
@@ -83,16 +83,18 @@ public class Game : MonoBehaviour
         _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
     }
 
-    void RetractHome()
+    void StartAnomaly()
     {
-        _player.RetractToHome();
+        _player.StartAnomaly();
         GameData.State = GameState.RetractingHome;
     }
 
-    void OnPlayerRetractHomeComplete()
+    void OnPlayerAnomalyComplete()
     {
         GameData.State = GameState.ChoosingAction;
         GameData.ResetAnomaly();
+
+        Debug.Log("Anomaly completed");
     }
 
     void ApplyAction()
@@ -102,8 +104,8 @@ public class Game : MonoBehaviour
         // Action completed now allow user to select node or retract to home
         if(false == GameData.HasOperationTimeLeft)
         {
-            Debug.Log("Ran out of travel time. Retracting to home.");
-            RetractHome();
+            Debug.Log("Ran out of travel time. Anomaly starting...");
+            StartAnomaly();
         }
         else
         {

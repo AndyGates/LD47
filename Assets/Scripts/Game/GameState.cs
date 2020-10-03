@@ -31,10 +31,10 @@ public class GameStateData
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
 
-    public int MaxOperationTime { get => 10; }
+    public int MaxOperationTime { get => 12; }
     public int MaxFuel{  get => 100; }
     public int MaxResources { get => 25; }
-    public int MaxHealth { get => 10; }
+    public int MaxHealth { get => 100; }
 
     public bool HasOperationTimeLeft{ get => OperationTime > 0; }
     public bool HasFuelLeft{ get => Fuel > 0; }
@@ -61,7 +61,7 @@ public class GameStateData
         Health -= cost.Health;
     }
 
-    public bool CanTakeTravelCost(TravelCost cost)
+    public bool CanAffordTravel(TravelCost cost)
     {
         return OperationTime - cost.Time >= 0 &&
             Fuel - cost.Fuel >= 0 &&

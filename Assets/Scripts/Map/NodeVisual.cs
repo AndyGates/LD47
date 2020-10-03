@@ -5,7 +5,7 @@ using UnityEngine;
 public class NodeVisual : MonoBehaviour
 {
     [SerializeField]
-    GameObject _outline;
+    GameObject _outline = null;
 
     void Awake()
     {

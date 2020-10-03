@@ -91,14 +91,14 @@ public class Player : MonoBehaviour
         };
     }
 
-    public void RetractToHome()
+    public void StartAnomaly()
     {
         _currentNodeId = _homeNodeId;
 
         iTween.MoveTo(gameObject, iTween.Hash(
             "position", (Vector3)_map.GetNodeCoords(_currentNodeId), 
             "speed", _retractHomeTravelSpeed, 
-            "oncomplete", nameof(OnRetractHomeComplete),
+            "oncomplete", nameof(OnAnomalyComplete),
             "easeType", _easeMethod)
         );
     }
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
         TravelComplete.Invoke();
     }
 
-    public void OnRetractHomeComplete()
+    public void OnAnomalyComplete()
     {
         RetractHomeComplete.Invoke();
     }
