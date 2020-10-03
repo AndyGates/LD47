@@ -5,58 +5,32 @@ using UnityEngine;
 public class RouteVisual : MonoBehaviour
 {    
     [SerializeField]
-    float _width = 0.2f;
-
-    [SerializeField]
     Color _untraveledColor = Color.grey;
 
     [SerializeField]
     Color _traveledColor = Color.white;
 
-    Route _route = null;
-    public Route Route{ get => _route; set => ChangeRoute(value, _route); }
+    public Route Route{ get; set; }
 
-    Renderer _renderer = null;
+    LineRenderer _renderer = null;
+
+    Vector2 _from;
+    Vector2 _to;
 
     void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        _renderer = FindObjectOfType<LineRenderer>(); // HACKS
     }
 
-    public void Set(Vector2 From, Vector2 To)
+    void Update()
     {
-        Vector2 dir = To - From;
-        float dist =  dir.magnitude;
-        Vector2 pos = From + (dir.normalized * (dist / 2.0f));
-
-        transform.position = pos;
-        transform.right = dir.normalized;
-        transform.localScale = new Vector3(dist, _width, 1.0f);
+        Color color = Route.State == RouteState.Traveled ? _traveledColor : _untraveledColor;
+        _renderer.RenderLine(_from, _to, color);
     }
 
-    void ChangeRoute(Route newRoute, Route oldRoute)
+    public void Set(Vector2 from, Vector2 to)
     {
-        _route = newRoute;
-
-        if(oldRoute != null)
-        {
-            oldRoute.StateChanged -= OnStateChanged;
-        }
-        newRoute.StateChanged += OnStateChanged;
-
-        UpdateColor();
-    }
-
-    void OnStateChanged(Route route)
-    {
-        if(route == Route)
-        {
-            UpdateColor();
-        }
-    }
-
-    void UpdateColor()
-    {
-        _renderer.material.color = Route.State == RouteState.Traveled ? _traveledColor : _untraveledColor;
+        _from = from;
+        _to = to;
     }
 }
