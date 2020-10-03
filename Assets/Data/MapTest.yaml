@@ -9,8 +9,6 @@ nodes:
     coords:
       x: -5.36
       y: 0
-    properties:
-      brap: derp
 
   - name: Asteroid01
     id: 1

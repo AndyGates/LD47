@@ -15,16 +15,19 @@ public class Route
 
     public float TravelTime { get; } // THe nominal travel time of this route
 
+    public float FuelCost { get; }
+
     RouteState _state = RouteState.Untraveled;
     public RouteState State { get => _state; set => ChangeState(value, _state); }
 
     public event System.Action<Route> StateChanged;
 
-    public Route(int from, int to, float travelTime)
+    public Route(int from, int to, float travelTime, float fuelCost)
     {
         From = from;
         To = to;
         TravelTime = travelTime;
+        FuelCost = fuelCost;
     }
 
     public void TravelRoute()

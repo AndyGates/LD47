@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    enum GameState
-    {
-        SelectingNode, // Waiting for the user to select a node to travel
-        Traveling,  // We are traveling a route
-        SelectingAction, // Waiting on the user to select a build/mine/collect/upgrade ship action
-        RetractingHome, // Rang out of travel time so retract home has been triggered
-        Complete,
-    }
-
     [SerializeField]
     TextAsset _mapData = null;
 
@@ -22,15 +13,14 @@ public class Game : MonoBehaviour
     [SerializeField]
     Player _player = null;
 
-    GameState State { get; set; } = GameState.SelectingNode;
+    float _operationTime = 0.0f;
+    float _maxOperationTime = 6.0f;
 
-    float _travelTime = 0.0f;
-    float _maxTravelTime = 6.0f;
+    GameStateData GameData { get; set; } = new GameStateData();
 
     void Awake()
     {
         _map.LoadMap(_mapData);
-        _map.RouteSelected += OnRouteSelected;
         _map.NodeSelected += OnNodeSelected;
 
         _player.SetAtNodeId(0);
@@ -41,56 +31,50 @@ public class Game : MonoBehaviour
     void Update()
     {
         // HACKS
-        if(State == GameState.SelectingAction)
+        if(GameData.State == GameState.ChoosingAction)
         {
             Debug.Log("Skipping user select action");
             ApplyAction();
         }
     }
 
-    void OnRouteSelected(Route route)
-    {
-        if(State == GameState.SelectingNode && _player.CanTravelRoute(route))
-        {
-            // TODO: Validate if we have enough time left to do this travel
-             _travelTime += _player.TravelRoute(route);
-            State = GameState.Traveling;
-        }
-    }
-
     void OnNodeSelected(Node node)
     {
-        if(State == GameState.SelectingNode && node.Id != _player.GetCurrentNodeId() && _player.CanTravelToNode(node))
+        if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel && 
+            _player.CanTravelToNode(node))
         {
-            // TODO: Validate if we have enough time left to do this travel
-             _travelTime += _player.TravelToNode(node);
-            State = GameState.Traveling;
+            // TODO: Validate if we have enough time/fuel left to do this travel
+            TravelCost cost = _player.TravelToNode(node);
+            GameData.ApplyTravelCost(cost);
+            GameData.State = GameState.RunningAction;
         }
     }
 
     void OnPlayerTravelComplete()
     {
-        State = GameState.SelectingAction;
-
-        Debug.Log($"Travel completed. {_maxTravelTime - _travelTime}s of travel time left");
+        Debug.Log($"Travel completed. {_maxOperationTime - _operationTime}s of travel time left");
 
         if(_map.GetNodeType(_player.GetCurrentNodeId()) == 1)
         {
             Debug.Log("Well done you escaped the loop");
-            State = GameState.Complete;
+            GameData.State = GameState.Complete;
+        }
+        else
+        {
+            GameData.State = GameState.ChoosingAction;
         }
     }
 
     void RetractHome()
     {
         _player.RetractToHome();
-        State = GameState.RetractingHome;
+        GameData.State = GameState.RetractingHome;
     }
 
     void OnPlayerRetractHomeComplete()
     {
-        State = GameState.SelectingNode;
-        _travelTime = 0.0f;
+        GameData.State = GameState.ChoosingAction;
+        GameData.Reset();
     }
 
     void ApplyAction()
@@ -98,14 +82,15 @@ public class Game : MonoBehaviour
         // TODO Do action stuff
 
         // Action completed now allow user to select node or retract to home
-        if(_travelTime >= _maxTravelTime)
+        if(GameData.HasOperationTimeLeft)
         {
             Debug.Log("Ran out of travel time. Retracting to home.");
             RetractHome();
         }
         else
         {
-            State = GameState.SelectingNode;
+            GameData.Action = GameAction.Travel;
+            GameData.State = GameState.ConfiguringAction;
         }
     }
 }

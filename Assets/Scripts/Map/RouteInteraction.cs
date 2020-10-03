@@ -9,6 +9,6 @@ public class RouteInteraction : MonoBehaviour
 
     void OnMouseUpAsButton()
     {
-        RouteSelected.Invoke(Route);
+        RouteSelected?.Invoke(Route);
     }
 }

@@ -22,7 +22,6 @@ public class NodeVisual : MonoBehaviour
     void OnMouseOver()
     {
         _renderer.color = _hoverColor;
-        Debug.Log("Mopuse ");
     }
 
     void OnMouseExit()

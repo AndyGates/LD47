@@ -72,7 +72,12 @@ public class Map : MonoBehaviour
         _routes = new List<Route>(mapDto.Routes.Count);
         foreach(RouteDto routeDto in mapDto.Routes)
         {
-            Route route = new Route(routeDto.From, routeDto.To, routeDto.TravelTime);
+            Route route = new Route(
+                routeDto.From, 
+                routeDto.To, 
+                routeDto.TravelTime, 
+                routeDto.FuelCost
+            );
             CreateRouteVisual(route);
 
             _routes.Add(route);
@@ -109,11 +114,11 @@ public class Map : MonoBehaviour
 
     void OnRouteSelected(Route route)
     {
-        RouteSelected.Invoke(route);
+        RouteSelected?.Invoke(route);
     }
 
     void OnNodeSelected(Node node)
     {
-        NodeSelected.Invoke(node);
+        NodeSelected?.Invoke(node);
     }
 }

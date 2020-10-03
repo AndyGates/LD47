@@ -35,43 +35,12 @@ public class Player : MonoBehaviour
         transform.position = _map.GetNodeCoords(nodeId);
     }
 
-    public bool CanTravelRoute(Route route)
-    {
-        return _currentNodeId == route.From || _currentNodeId == route.To;
-    }
-
-    public float TravelRoute(Route route)
-    {
-        _currentNodeId = route.From == _currentNodeId ? route.To : route.From;
-
-        float travelFactor = _traveledTravelFactor;
-
-        if(route.State == RouteState.Untraveled)
-        {
-            route.State = RouteState.Traveled;
-            travelFactor = _untraveledTravelFactor;
-        }
-
-        float travelTime = route.TravelTime * travelFactor;
-
-        Debug.Log($"Traveling for {travelTime}s");
-
-        iTween.MoveTo(gameObject, iTween.Hash(
-            "position", (Vector3)_map.GetNodeCoords(_currentNodeId), 
-            "time", travelTime, 
-            "oncomplete", nameof(OnTravelComplete),
-            "easeType", _easeMethod)
-        );
-
-        return travelTime;
-    }
-
     public bool CanTravelToNode(Node node)
     {
-        return _map.IsRouteAvailble(_currentNodeId, node.Id);
+        return node.Id != _currentNodeId && _map.IsRouteAvailble(_currentNodeId, node.Id);
     }
 
-    public float TravelToNode(Node node)
+    public TravelCost TravelToNode(Node node)
     {
         Route route = _map.FindRoute(_currentNodeId, node.Id);
         _currentNodeId = node.Id;
@@ -86,16 +55,24 @@ public class Player : MonoBehaviour
 
         float travelTime = route.TravelTime * travelFactor;
 
+        Vector3 to = _map.GetNodeCoords(_currentNodeId);
+
+        transform.right = (to - transform.position).normalized;
+
         Debug.Log($"Traveling for {travelTime}s");
 
         iTween.MoveTo(gameObject, iTween.Hash(
-            "position", (Vector3)_map.GetNodeCoords(_currentNodeId), 
+            "position", (Vector3)to, 
             "time", travelTime, 
             "oncomplete", nameof(OnTravelComplete),
             "easeType", _easeMethod)
         );
 
-        return travelTime;
+        return new TravelCost()
+        {
+            Time = travelTime,
+            Fuel = route.FuelCost
+        };
     }
 
     public void RetractToHome()

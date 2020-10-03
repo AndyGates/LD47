@@ -9,6 +9,6 @@ public class NodeInteraction : MonoBehaviour
 
     void OnMouseUpAsButton()
     {
-        NodeSelected.Invoke(Node);
+        NodeSelected?.Invoke(Node);
     }
 }
