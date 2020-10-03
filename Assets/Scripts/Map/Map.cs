@@ -37,11 +37,13 @@ public class Map : MonoBehaviour
     {
         foreach(Route route in _routes)
         {
-            if(route.From == fromId && route.To == toId)
+            if((route.From == fromId && route.To == toId) || 
+            (route.To == fromId && route.From == toId))
             {
                 return route;
             }
         }
+        Debug.Log($"Failed to find route from {fromId} to {toId}");
         return null;
     }
 
@@ -62,7 +64,14 @@ public class Map : MonoBehaviour
         _nodes = new Dictionary<int, Node>(mapDto.Nodes.Count);
         foreach(NodeDto nodeDto in mapDto.Nodes)
         {
-            Node node = new Node(nodeDto.Id, nodeDto.Type, nodeDto.Coords, nodeDto.Fuel, nodeDto.Resources, nodeDto.BuildingSpaces);
+            Node node = new Node(
+                nodeDto.Name, 
+                nodeDto.Id, 
+                nodeDto.Type, 
+                nodeDto.Coords, 
+                nodeDto.Fuel,
+                nodeDto.Resources, 
+                nodeDto.BuildingSpaces);
             CreateNodeVisual(node);
 
             _nodes[nodeDto.Id] = node;

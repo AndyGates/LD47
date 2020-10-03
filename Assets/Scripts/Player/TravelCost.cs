@@ -6,4 +6,9 @@ public struct TravelCost
 {
     public int Time { get; set; }
     public int Fuel { get; set; }
+
+    public override string ToString()
+    {
+        return $"Time={Time}, Fuel={Fuel}";
+    }
 }

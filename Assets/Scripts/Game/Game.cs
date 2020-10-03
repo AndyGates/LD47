@@ -44,13 +44,21 @@ public class Game : MonoBehaviour
 
     void OnNodeSelected(Node node)
     {
-        if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel && 
-            _player.CanTravelToNode(node))
+        if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel)
         {
-            // TODO: Validate if we have enough time/fuel left to do this travel
-            TravelCost cost = _player.TravelToNode(node);
-            GameData.ApplyTravelCost(cost);
-            GameData.State = GameState.RunningAction;
+            if(_player.CanTravelToNode(node))
+            {
+                // TODO: Validate if we have enough time/fuel left to do this travel
+                TravelCost cost = _player.TravelToNode(node);
+                GameData.ApplyTravelCost(cost);
+                GameData.State = GameState.RunningAction;
+
+                Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+            }
+            else
+            {
+                Debug.Log($"Not traveling to {node.Name}");
+            }
         }
     }
 

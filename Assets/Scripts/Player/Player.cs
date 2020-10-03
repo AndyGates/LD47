@@ -59,8 +59,6 @@ public class Player : MonoBehaviour
 
         transform.right = (to - transform.position).normalized;
 
-        Debug.Log($"Traveling for {travelTime}s");
-
         iTween.MoveTo(gameObject, iTween.Hash(
             "position", (Vector3)to, 
             "time", travelTime, 
