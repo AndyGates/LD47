@@ -63,6 +63,11 @@ public class GameStateData
 
     public bool CanAffordTravel(TravelCost cost)
     {
+        if(cost == null)
+        {
+            return false;
+        }
+        
         return OperationTime - cost.Time >= 0 &&
             Fuel - cost.Fuel >= 0 &&
             Health - cost.Health >= 0;
