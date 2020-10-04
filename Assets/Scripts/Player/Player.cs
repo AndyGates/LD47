@@ -19,26 +19,25 @@ public class Player : MonoBehaviour
     public event System.Action TravelComplete;
     public event System.Action RetractHomeComplete;
 
-    int _currentNodeId = 0; // Id of the node this player is at or is traveling to
+    public Node CurrentNode { get; private set; }
+    public int CurrentNodeId { get => CurrentNode.Id; }
     int _homeNodeId = 0;
 
     iTween.EaseType _easeMethod = iTween.EaseType.linear;
 
-    public int GetCurrentNodeId()
-    {
-        return _currentNodeId;
-    }
-
     public void SetAtNodeId(int nodeId)
     {
-        _currentNodeId = _homeNodeId = nodeId;
+        CurrentNode = _map.FindNode(nodeId);
+        _homeNodeId = nodeId;
         transform.position = _map.GetNodeCoords(nodeId);
         transform.right = Vector3.right;
+
+        OnDiscoverNode(_map.FindNode(nodeId));
     }
 
     public bool CanTravelToNode(Node node)
     {
-        return node.Id != _currentNodeId && _map.IsRouteAvailable(_currentNodeId, node.Id);
+        return node.Id != CurrentNodeId && _map.IsRouteAvailable(CurrentNodeId, node.Id);
     }
 
     public int CalculateTravelTime(Route route)
@@ -54,7 +53,7 @@ public class Player : MonoBehaviour
 
     public TravelCost CalculateTravelCost(Node node)
     {
-        Route route = _map.FindRoute(_currentNodeId, node.Id);
+        Route route = _map.FindRoute(CurrentNodeId, node.Id);
 
         TravelCost cost = null;
         if(route != null)
@@ -71,7 +70,7 @@ public class Player : MonoBehaviour
 
     public TravelCost TravelToNode(Node node)
     {
-        Route route = _map.FindRoute(_currentNodeId, node.Id);
+        Route route = _map.FindRoute(CurrentNodeId, node.Id);
 
         int travelTime = CalculateTravelTime(route);
 
@@ -86,9 +85,9 @@ public class Player : MonoBehaviour
             "easeType", _easeMethod)
         );
 
-        _currentNodeId = node.Id;
+        CurrentNode = node;
         route.State = RouteState.Traveled;
-
+        
         return new TravelCost()
         {
             Time = travelTime,
@@ -97,12 +96,28 @@ public class Player : MonoBehaviour
         };
     }
 
+    void OnDiscoverNode(Node node)
+    {
+        node.State = NodeState.Discovered;
+        node.Visual.CanOutline = true;
+
+        List<Route> linkedRoutes = _map.FindLinkedRoutes(node.Id);
+        foreach(Route linkedRoute in linkedRoutes)
+        {
+            Node toNode = _map.FindNode(linkedRoute.To);
+            toNode.OnCanTravelTo();
+
+            Node fromNode = _map.FindNode(linkedRoute.To);
+            fromNode.OnCanTravelTo();
+        }
+    }
+
     public void StartAnomaly()
     {
-        _currentNodeId = _homeNodeId;
+        CurrentNode = _map.FindNode(_homeNodeId);
 
         iTween.MoveTo(gameObject, iTween.Hash(
-            "position", (Vector3)_map.GetNodeCoords(_currentNodeId), 
+            "position", (Vector3)CurrentNode.Coords, 
             "speed", _retractHomeTravelSpeed, 
             "oncomplete", nameof(OnAnomalyComplete),
             "easeType", _easeMethod)
@@ -112,6 +127,8 @@ public class Player : MonoBehaviour
     public void OnTravelComplete()
     {
         TravelComplete.Invoke();
+
+        OnDiscoverNode(CurrentNode);
     }
 
     public void OnAnomalyComplete()
@@ -121,8 +138,6 @@ public class Player : MonoBehaviour
 
     public bool TravelActionValid(GameStateData gameData)
     {
-        Node currentNode = _map.FindNode(GetCurrentNodeId());
-
         // Make sure we have fuel and time
         if(false == gameData.HasFuelLeft)
         {
@@ -131,12 +146,12 @@ public class Player : MonoBehaviour
         }
 
         // See if we can travel to another node
-        List<Route> routes = _map.FindLinkedRoutes(GetCurrentNodeId());
+        List<Route> routes = _map.FindLinkedRoutes(CurrentNodeId);
         if(routes.Count > 0)
         {
             foreach(Route route in routes)
             {
-                TravelCost cost = CalculateTravelCost(currentNode);
+                TravelCost cost = CalculateTravelCost(CurrentNode);
                 if(false == gameData.CanAffordTravel(cost))
                 {
                     return true; // We can travel to atleast 1 node

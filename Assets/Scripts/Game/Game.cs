@@ -141,7 +141,7 @@ public class Game : MonoBehaviour
     {
         Debug.Log($"Travel completed. {GameData.OperationTime}s of travel time left");
 
-        if(_map.GetNodeType(_player.GetCurrentNodeId()) == _goalNodeType)
+        if(_map.GetNodeType(_player.CurrentNodeId) == _goalNodeType)
         {
             Debug.Log("Well done you escaped the loop");
             GameData.State = GameState.Complete;
@@ -154,7 +154,7 @@ public class Game : MonoBehaviour
             ShowActionSelectionScreen();
         }
 
-        _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
+        _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
     }
 
     List<ActionData> GetAvailableActions(List<GameAction> nodeActions)
@@ -206,7 +206,7 @@ public class Game : MonoBehaviour
 
         //This probably shouldn't be done here...
         //Get the actions available from the node 
-        List<GameAction> nodeActions = _map.GetAvailableActions(_player.GetCurrentNodeId());
+        List<GameAction> nodeActions = _map.GetAvailableActions(_player.CurrentNodeId);
 
         //Combine these with the actions the player can currently do and get the action data 
         List<ActionData> availableActions = GetAvailableActions(nodeActions);
@@ -289,18 +289,18 @@ public class Game : MonoBehaviour
     void DoMineAction(ActionData data)
     {
         GameData.Resources += data.Resources;
-        _map.FindNode(_player.GetCurrentNodeId()).Resources -= data.Resources;
+        _player.CurrentNode.Resources -= data.Resources;
     }
 
     void DoCollectFuel(ActionData data)
     {
         GameData.Fuel += data.Fuel;
-        _map.FindNode(_player.GetCurrentNodeId()).Fuel -= data.Fuel;
+        _player.CurrentNode.Fuel -= data.Fuel;
     }
 
     void DoBuildRefinery(ActionData data)
     {
-        if(_map.FindNode(_player.GetCurrentNodeId()).AddBuilding())
+        if(_player.CurrentNode.BuildingSpaces.AddBuilding())
         {
             GameData.Resources += data.Resources;
         }

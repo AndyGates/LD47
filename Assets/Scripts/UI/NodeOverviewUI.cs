@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class NodeOverviewUI : MonoBehaviour
 {
     [SerializeField]
+    Text _name = null;
+
+    [SerializeField]
     Text _availableFuel = null;
 
     [SerializeField]
@@ -29,6 +32,8 @@ public class NodeOverviewUI : MonoBehaviour
     public void SetNode(Node node)
     {
         transform.position = node.Coords;
+
+        _name.text = node.Name;
 
         _availableFuel.text = node.Fuel.ToString();
         _availableResources.text = node.Resources.ToString();
