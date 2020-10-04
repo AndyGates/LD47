@@ -15,17 +15,11 @@ public class NodeInteraction : MonoBehaviour
 
     void OnMouseOver()
     {
-        if(Node.State == NodeState.Discovered)
-        {
-            NodeHover?.Invoke(Node, false);
-        }
+        NodeHover?.Invoke(Node, false);
     }
 
     void OnMouseExit()
     {
-        if(Node.State == NodeState.Discovered)
-        {
-            NodeHover?.Invoke(Node, true);
-        }
+        NodeHover?.Invoke(Node, true);
     }
 }

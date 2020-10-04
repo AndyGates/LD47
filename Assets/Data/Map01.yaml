@@ -156,11 +156,23 @@ routes:
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # To BluePlanet03
+  - from: 5
+    to: 7
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
 
   # From Asteroid03 
   # To BluePlanet03
   - from: 6
     to: 7
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To RedPlanet02
+  - from: 6
+    to: 8
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
