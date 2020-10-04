@@ -257,6 +257,9 @@ public class Game : MonoBehaviour
                     DoBuildRefinery(data);
                     break;
             }
+
+            GameData.OperationTime -= data.Time;
+            
         }
 
         //TODO only do this on travel? Can we do more than one action at a node before travelling?
@@ -281,25 +284,19 @@ public class Game : MonoBehaviour
 
     void DoMineAction(ActionData data)
     {
-        GameData.OperationTime -= data.Time;
         GameData.Resources += data.Resources;
-
         _map.FindNode(_player.GetCurrentNodeId()).Resources -= data.Resources;
     }
 
     void DoCollectFuel(ActionData data)
     {
-        GameData.OperationTime -= data.Time;
         GameData.Fuel += data.Fuel;
-
         _map.FindNode(_player.GetCurrentNodeId()).Fuel -= data.Fuel;
     }
 
     void DoBuildRefinery(ActionData data)
     {
-        GameData.OperationTime -= data.Time;
         GameData.Resources += data.Resources;
-
         _map.FindNode(_player.GetCurrentNodeId()).BuildingSpaces--;
     }
 }

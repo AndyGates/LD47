@@ -17,6 +17,7 @@ public class Map : MonoBehaviour
     public event System.Action<Node, bool> NodeHover;
 
     Dictionary<int, Node> _nodes;
+    Dictionary<int, NodeVisual> _nodeVisuals;
     List<Route> _routes;
 
     public void ResetAll()
@@ -99,7 +100,6 @@ public class Map : MonoBehaviour
                 nodeDto.Resources, 
                 nodeDto.BuildingSpaces);
             CreateNodeVisual(node);
-
             _nodes[nodeDto.Id] = node;
         }
 

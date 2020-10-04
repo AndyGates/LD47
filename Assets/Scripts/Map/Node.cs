@@ -34,4 +34,9 @@ public class Node
         BuildingSpaces = DefaultBuildingSpaces;
     }
 
+    public void UpdateTicks(int ticks)
+    {
+        int buildings = DefaultBuildingSpaces - BuildingSpaces;
+    }
+
 }
