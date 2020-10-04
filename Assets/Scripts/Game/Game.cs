@@ -259,11 +259,8 @@ public class Game : MonoBehaviour
             }
 
             GameData.OperationTime -= data.Time;
-            
-        }
 
-        //TODO only do this on travel? Can we do more than one action at a node before travelling?
-        ShowRouteSelectionScreen();
+        }
 
         // Action completed now allow user to select node, retract to home or game over if they cannot travel
         if(false == _player.TravelActionValid(GameData))
@@ -273,12 +270,19 @@ public class Game : MonoBehaviour
         else if(false == GameData.HasOperationTimeLeft)
         {
             Debug.Log("Ran out of travel time. Anomaly starting...");
+            ShowRouteSelectionScreen();
             StartAnomaly();
         }
-        else
+        else if(action == GameAction.Travel)
         {
             GameData.Action = GameAction.Travel;
             GameData.State = GameState.ConfiguringAction;
+
+            ShowRouteSelectionScreen();
+        }
+        else
+        {
+            ShowActionSelectionScreen();
         }
     }
 
@@ -296,7 +300,9 @@ public class Game : MonoBehaviour
 
     void DoBuildRefinery(ActionData data)
     {
-        GameData.Resources += data.Resources;
-        _map.FindNode(_player.GetCurrentNodeId()).BuildingSpaces--;
+        if(_map.FindNode(_player.GetCurrentNodeId()).AddBuilding())
+        {
+            GameData.Resources += data.Resources;
+        }
     }
 }

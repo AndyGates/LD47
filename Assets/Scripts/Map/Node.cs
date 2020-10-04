@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Node
 {
+    public event System.Action BuildingAdded;
+
     public string Name{ get; }
     public int Id{ get; }
     public int Type{ get; }
@@ -37,6 +39,22 @@ public class Node
     public void UpdateTicks(int ticks)
     {
         int buildings = DefaultBuildingSpaces - BuildingSpaces;
+    }
+
+    public bool AddBuilding()
+    {
+        if(BuildingSpaces > 0)
+        {
+            BuildingSpaces--;
+            BuildingAdded?.Invoke();
+        }
+        else
+        {
+            Debug.LogError("Cannot add building with no spaces...");
+            return false;
+        }
+
+        return true;
     }
 
 }
