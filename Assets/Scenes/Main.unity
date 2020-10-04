@@ -1407,10 +1407,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActionSelectionScreen
       objectReference: {fileID: 0}
-    - target: {fileID: 2226085227865002758, guid: b4aa7380ae1f4464c8214dae6c039d8e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2226085227865002759, guid: b4aa7380ae1f4464c8214dae6c039d8e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -48,7 +48,7 @@ public class NodeVisual : MonoBehaviour
         _outline.SetActive(false);
     }
 
-    void OnBuildingAdded()
+    public void OnBuildingAdded()
     {
         if(_buildingSlots.Count > 0)
         {

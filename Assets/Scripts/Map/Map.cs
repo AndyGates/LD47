@@ -190,7 +190,7 @@ public class Map : MonoBehaviour
 
     GameObject CreateNodeVisual(Node node)
     {
-        GameObject go = GameObject.Instantiate(_mapAssets.GteNodePrefab(node.Type), node.Coords, Quaternion.identity, transform);
+        GameObject go = GameObject.Instantiate(_mapAssets.GetNodePrefab(node.Type), node.Coords, Quaternion.identity, transform);
         go.name = node.Name;
 
         NodeInteraction interact = go.AddComponent<NodeInteraction>();

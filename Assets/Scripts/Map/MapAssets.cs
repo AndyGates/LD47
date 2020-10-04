@@ -10,12 +10,26 @@ public class MapAssets : ScriptableObject
     {
         public int Type;
         public GameObject Prefab;
+        public GameObject ZoomedPrefab;
     }
 
     [SerializeField]
     List<NodeAsset> _nodeAssets = null;
 
-    public GameObject GteNodePrefab(int typeId)
+    public GameObject GetNodePrefab(int typeId)
+    {
+        foreach(NodeAsset asset in _nodeAssets)
+        {
+            if(asset.Type == typeId)
+            {
+                return asset.Prefab;
+            }
+        }
+
+        return null;
+    }
+
+    public GameObject GetZoomedNodePrefab(int typeId)
     {
         foreach(NodeAsset asset in _nodeAssets)
         {
