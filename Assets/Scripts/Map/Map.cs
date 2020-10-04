@@ -19,8 +19,9 @@ public class Map : MonoBehaviour
     public event System.Action<Node> NodeSelected;
     public event System.Action<Node, bool> NodeHover;
 
+    Rules _rulesData = null;
+
     Dictionary<int, Node> _nodes;
-    Dictionary<int, NodeVisual> _nodeVisuals;
     List<Route> _routes;
 
     void Update()
@@ -106,6 +107,8 @@ public class Map : MonoBehaviour
 
         MapDto mapDto = deserializer.Deserialize<MapDto>(mapData.text);
 
+        _rulesData = new Rules(mapDto.Rules.RefineryResourcesPerTick, mapDto.Rules.RefineryFuelPerTick);
+
         // Nodes
         _nodes = new Dictionary<int, Node>(mapDto.Nodes.Count);
         foreach(NodeDto nodeDto in mapDto.Nodes)
@@ -162,6 +165,27 @@ public class Map : MonoBehaviour
         if(n.Resources > 0) actions.Add(GameAction.Mine);
 
         return actions;
+    }
+
+    public void TickNodes(int deltaTicks)
+    {
+        foreach(Node n in _nodes.Values)
+        {
+            int buildings = n.ActiveBuildings;
+
+            for(int i = 0; i < buildings; i++)
+            {
+                if(n.Resources >= -_rulesData.RefineryResourcesPerTick)
+                {
+                    n.Resources += _rulesData.RefineryResourcesPerTick * deltaTicks;
+                    n.Fuel += _rulesData.RefineryFuelPerTick * deltaTicks;
+                }
+                else
+                {
+                    break;
+                }
+            }            
+        }
     }
 
     GameObject CreateNodeVisual(Node node)

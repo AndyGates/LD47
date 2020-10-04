@@ -119,6 +119,8 @@ public class Game : MonoBehaviour
                 GameData.ApplyTravelCost(cost);
                 GameData.State = GameState.RunningAction;
 
+                _map.TickNodes(cost.Time);
+
                 Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
             }
             else
@@ -245,6 +247,9 @@ public class Game : MonoBehaviour
             // TODO Do action stuff
             Debug.Log($"Doing action {data.ToString()}");
 
+            GameData.OperationTime -= data.Time;
+            _map.TickNodes(data.Time);
+
             switch(action)
             {
                 case GameAction.Mine:
@@ -257,9 +262,6 @@ public class Game : MonoBehaviour
                     DoBuildRefinery(data);
                     break;
             }
-
-            GameData.OperationTime -= data.Time;
-
         }
 
         // Action completed now allow user to select node, retract to home or game over if they cannot travel

@@ -1,5 +1,8 @@
 ---
-
+rules:
+  refinery_resources_per_tick: -1
+  refinery_fuel_per_tick: 1
+  
 nodes:
   - name: Home
     id: 0
@@ -23,7 +26,7 @@ nodes:
     coords:
       x: -0.99
       y: -1.99
-    resources: 0
+    resources: 10
     building_spaces: 1
 
   - name: RedPlanet01

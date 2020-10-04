@@ -21,6 +21,8 @@ public class Node
     public int Resources { get; set; }
     public int BuildingSpaces { get; set; }
 
+    public int ActiveBuildings { get { return DefaultBuildingSpaces - BuildingSpaces; } }
+
     public NodeState State { get; set; }
 
     public NodeVisual Visual { get; set; }
@@ -51,11 +53,6 @@ public class Node
         {
             Visual.CanOutline = false;
         }
-    }
-
-    public void UpdateTicks(int ticks)
-    {
-        int buildings = DefaultBuildingSpaces - BuildingSpaces;
     }
 
     public void OnCanTravelTo()

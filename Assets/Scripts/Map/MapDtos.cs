@@ -3,8 +3,16 @@ using UnityEngine;
 
 public class MapDto
 {
+    public RulesDto Rules { get; set; }
     public List<NodeDto> Nodes { get; set; }
     public List<RouteDto> Routes { get; set; }
+}
+
+public class RulesDto
+{
+    //TODO Maybe add action data here too
+    public int RefineryResourcesPerTick { get; set; }
+    public int RefineryFuelPerTick { get; set; }
 }
 
 public class NodeDto
