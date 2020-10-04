@@ -20,23 +20,30 @@ public class ActionSelectionScreen : MonoBehaviour
 
     Node _currentNode;
 
+    Vector3 _nodeSpawnOffset;
+    GameObject _nodeGO;
+
     public void Awake()
     {
         _actionList.ActionSelected += OnActionSelected;
+        _nodeSpawnOffset = _nodeSpawn.position;
     }
 
     public void Show(List<ActionData> actions, Node node)
     {
         _actionList.SetActions(actions);
         _planetDetails.SetData(node.Fuel, node.Resources, node.BuildingSpaces, node.Name);
-        
-        foreach(Transform t in _nodeSpawn)
+
+        _nodeSpawn.position = _nodeSpawnOffset + Camera.main.transform.position;
+
+        if(_nodeGO != null)
         {
-            Object.Destroy(t.gameObject);
+            Object.Destroy(_nodeGO);
         }
 
         GameObject go = Instantiate(_mapAssets.GetZoomedNodePrefab(node.Type), Vector3.zero, Quaternion.identity, _nodeSpawn);
         go.transform.localPosition = Vector3.zero;
+        _nodeGO = go;
         
         NodeVisual nv = go.GetComponent<NodeVisual>();
         if(nv != null)
