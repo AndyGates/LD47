@@ -26,7 +26,7 @@ public class GameStateData
     public GameState State { get; set; } = GameState.ChoosingAction;
     public GameAction Action{ get; set; } = GameAction.None;
 
-    public int OperationTime { get; set; } // The amount of time availble for operations
+    public int OperationTime { get; set; } // The amount of time available for operations
     public int Fuel { get; set; } // The amount of fuel left
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
