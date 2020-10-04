@@ -188,10 +188,16 @@ public class Game : MonoBehaviour
         Debug.Log("Anomaly completed");
     }
 
-    void ApplyAction(ActionData action)
+    void ApplyAction(GameAction action)
     {
-        // TODO Do action stuff
+        if(_actionMap.ContainsKey(action))
+        {
+            ActionData data = _actionMap[action];
+            // TODO Do action stuff
+            Debug.Log($"Doing action {action}");
+        }
 
+        //TODO only do this on travel? Can we do more than one action at a node before travelling?
         ShowRouteSelectionScreen();
 
         // Action completed now allow user to select node or retract to home

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionSelectionScreen : MonoBehaviour
 {
-    public event System.Action<ActionData> ActionSelected;
+    public event System.Action<GameAction> ActionSelected;
 
     [SerializeField]
     ActionListView _actionList;
@@ -23,6 +23,6 @@ public class ActionSelectionScreen : MonoBehaviour
 
     public void OnActionSelected(ActionData action)
     {
-        ActionSelected?.Invoke(action);
+        ActionSelected?.Invoke(action.ActionType);
     }
 }
