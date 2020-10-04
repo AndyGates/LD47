@@ -23,7 +23,14 @@ public class Player : MonoBehaviour
     public int CurrentNodeId { get => CurrentNode.Id; }
     int _homeNodeId = 0;
 
+    Route _activeRoute = null;
+
     iTween.EaseType _easeMethod = iTween.EaseType.linear;
+
+    const string ReasonNoFuel = "You cannot go very far without any fuel";
+    const string ReasonNoHealth = "Your ship has taken a beating and has failed";
+    const string ReasonNoRoutes = "No routes to travel"; // This should never happen
+    const string ReasonCost = "Cannot afford to travel";
 
     public void SetAtNodeId(int nodeId)
     {
@@ -86,8 +93,8 @@ public class Player : MonoBehaviour
         );
 
         CurrentNode = node;
-        route.State = RouteState.Traveled;
-        
+        _activeRoute = route;
+                
         return new TravelCost()
         {
             Time = travelTime,
@@ -129,6 +136,9 @@ public class Player : MonoBehaviour
         TravelComplete.Invoke();
 
         OnDiscoverNode(CurrentNode);
+
+        _activeRoute.State = RouteState.Traveled;
+        _activeRoute = null;
     }
 
     public void OnAnomalyComplete()
@@ -136,13 +146,18 @@ public class Player : MonoBehaviour
         RetractHomeComplete.Invoke();
     }
 
-    public bool TravelActionValid(GameStateData gameData)
+    public string CanContinue(GameStateData gameData)
     {
-        // Make sure we have fuel and time
-        if(false == gameData.HasFuelLeft)
+        // Make sure we have fuel or can get some
+        if(false == gameData.HasFuelLeft && false == CurrentNode.HasFuel)
         {
-            Debug.Log("Ran out of fuel");
-            return false;
+            return ReasonNoFuel;
+        }
+
+        // Make sure we have health or can repair
+        if(false == gameData.HasHealthLeft && false == gameData.CanRepair && CurrentNode.Resources < gameData.RepairCost)
+        {
+            return ReasonNoHealth;
         }
 
         // See if we can travel to another node
@@ -154,17 +169,17 @@ public class Player : MonoBehaviour
                 TravelCost cost = CalculateTravelCost(CurrentNode);
                 if(false == gameData.CanAffordTravel(cost))
                 {
-                    return true; // We can travel to atleast 1 node
+                    return null; // We can travel to atleast 1 node
                 }
             }
         }
         else
         {
-            Debug.Log("No routes to check");
-            return false;
+            // How did we get here is there are not routes?
+            return ReasonNoRoutes;
         }
 
-        Debug.Log("Cannot afford to travel");
-        return false;
+        // Generic reason
+        return ReasonCost;
     }
 }

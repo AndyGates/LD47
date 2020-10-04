@@ -27,6 +27,8 @@ public class Node
 
     public NodeVisual Visual { get; set; }
 
+    public bool HasFuel{ get => Fuel > 0; }
+
     readonly int DefaultFuel = 0;
     readonly int DefaultResources = 0;
     readonly int DefaultBuildingSpaces = 0;

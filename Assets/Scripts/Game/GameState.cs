@@ -20,6 +20,7 @@ public enum GameAction
     Mine,
     Collect,
     Repair,
+    ViewRoutes,
 }
 
 public class GameStateData
@@ -32,15 +33,19 @@ public class GameStateData
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
 
+    public int RepairCost{ get; set; }
+
     public int MaxOperationTime { get => 24; }
     public int StartFuel{  get => 30; }
     public int StartResources { get => 0; }
-    public int StartHealth { get => 100; }
+    public int StartHealth { get => 10; }
 
     public bool HasOperationTimeLeft{ get => OperationTime > 0; }
     public bool HasFuelLeft{ get => Fuel > 0; }
     public bool HasResourcesLeft{ get => Resources > 0; }
     public bool HasHealthLeft{ get => Health > 0; }
+
+    public bool CanRepair{ get => Resources >= RepairCost; }
 
     public void ResetAll()
     {
