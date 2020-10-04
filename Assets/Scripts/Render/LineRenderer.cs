@@ -28,6 +28,8 @@ public class LineRenderer : MonoBehaviour
         Camera camera = GetComponent<Camera>();
         _width = camera.pixelWidth;
         _height = camera.pixelHeight;
+
+        _lineMaterial = new Material(_lineMaterial);
     }
 
     void OnPostRender()
