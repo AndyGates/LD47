@@ -9,31 +9,20 @@ public class NodeOverviewUI : MonoBehaviour
     Text _name = null;
 
     [SerializeField]
-    Text _availableFuel = null;
+    StatGroup _nodeStats = null;
 
     [SerializeField]
-    Text _availableResources = null;
+    StatGroup _routeStats = null;
 
-    [SerializeField]
-    Text _availableSpaces = null;
+    public GameStateData GameData{ get; set; }
 
-    [SerializeField]
-    GameObject _travelCostUI = null;
+    const string FuelStatName = "Fuel";
+    const string ResourcesStatName = "Resources";
+    const string SpacesStatName = "Spaces";
 
-    [SerializeField]
-    Text _timeCost = null;
-
-    [SerializeField]
-    Text _healthCost = null;
-
-    [SerializeField]
-    Text _fuelCost = null;
-
-    [SerializeField]
-    GameObject _nodeStats = null;
-
-    [SerializeField]
-    GameObject _routeStats = null;
+    const string TimeCostStatName = "TimeCost";
+    const string HealthCostStatName = "HealthCost";
+    const string FuelCostStatName = "FuelCost";
 
     public void SetNode(Node node)
     {
@@ -41,28 +30,28 @@ public class NodeOverviewUI : MonoBehaviour
 
         _name.text = node.Name;
 
-        _availableFuel.text = node.Fuel.ToString();
-        _availableResources.text = node.Resources.ToString();
-        _availableSpaces.text = node.BuildingSpaces.ToString();
+        _nodeStats.SetStat(FuelStatName, node.Fuel);
+        _nodeStats.SetStat(ResourcesStatName, node.Resources);
+        _nodeStats.SetStat(SpacesStatName, node.BuildingSpaces);
 
         // Hide Node info if not discovered
         if(node.State != NodeState.Discovered)
         {
-            _nodeStats.SetActive(false);
+            _nodeStats.gameObject.SetActive(false);
         }
         else
         {
-            _nodeStats.SetActive(true);
+            _nodeStats.gameObject.SetActive(true);
         }
 
         // Hide route info if Undiscovered
         if(node.State == NodeState.Undiscovered)
         {
-            _routeStats.SetActive(false);
+            _routeStats.gameObject.SetActive(false);
         }
         else
         {
-            _routeStats.SetActive(true);
+            _routeStats.gameObject.SetActive(true);
         }
         
     }
@@ -71,14 +60,20 @@ public class NodeOverviewUI : MonoBehaviour
     {
         if(cost != null)
         {
-            _travelCostUI.SetActive(true);
-            _timeCost.text = cost.Time.ToString();
-            _healthCost.text = cost.Health.ToString();
-            _fuelCost.text = cost.Fuel.ToString();
+            _routeStats.gameObject.SetActive(true);
+
+            _routeStats.SetStat(TimeCostStatName, cost.Time);
+            _routeStats.SetStatState(TimeCostStatName, GameData.HasEnoughTime(cost.Time) ? StatState.Ok : StatState.Error);
+
+            _routeStats.SetStat(HealthCostStatName, cost.Health);
+            _routeStats.SetStatState(HealthCostStatName, GameData.HasEnoughHealth(cost.Health) ? StatState.Ok : StatState.Error);
+
+            _routeStats.SetStat(FuelCostStatName, cost.Fuel);
+            _routeStats.SetStatState(FuelCostStatName, GameData.HasEnoughFuel(cost.Fuel) ? StatState.Ok : StatState.Error);
         }
         else
         {
-            _travelCostUI.SetActive(false);
+            _routeStats.gameObject.SetActive(false);
         }
     }
 }

@@ -17,23 +17,18 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField]
     Text _timeUntilAnomaly = null;
 
-    GameStateData _gameState = null;
-
-    public void SetGameState(GameStateData gameState)
-    {
-        _gameState = gameState;
-    }
+    public GameStateData GameState{ get; set; }
 
     void Update()
     {
-        if(_gameState != null)
+        if(GameState != null)
         {
             // Just update the ui every frame no matter what. Maybe add some events later.
-            _health.text = _gameState.Health.ToString();
-            _resources.text = _gameState.Resources.ToString();
-            _fuel.text = _gameState.Fuel.ToString();
+            _health.text = GameState.Health.ToString();
+            _resources.text = GameState.Resources.ToString();
+            _fuel.text = GameState.Fuel.ToString();
 
-            _timeUntilAnomaly.text = _gameState.OperationTime.ToString();
+            _timeUntilAnomaly.text = GameState.OperationTime.ToString();
         }
     }
 }
