@@ -300,7 +300,7 @@ public class Game : MonoBehaviour
 
     void DoBuildRefinery(ActionData data)
     {
-        if(_player.CurrentNode.BuildingSpaces.AddBuilding())
+        if(_player.CurrentNode.AddBuilding())
         {
             GameData.Resources += data.Resources;
         }
