@@ -27,11 +27,6 @@ public class Player : MonoBehaviour
 
     iTween.EaseType _easeMethod = iTween.EaseType.linear;
 
-    const string ReasonNoFuel = "You cannot go very far without any fuel";
-    const string ReasonNoHealth = "Your ship has taken a beating and has failed";
-    const string ReasonNoRoutes = "No routes to travel"; // This should never happen
-    const string ReasonCost = "Cannot afford to travel";
-
     public void SetAtNodeId(int nodeId)
     {
         CurrentNode = _map.FindNode(nodeId);
@@ -49,6 +44,11 @@ public class Player : MonoBehaviour
 
     public int CalculateTravelTime(Route route)
     {
+        if(route == null)
+        {
+            return -1;
+        }
+
         int travelFactor = _traveledTravelFactor;
         if(route.State == RouteState.Untraveled)
         {
@@ -148,20 +148,37 @@ public class Player : MonoBehaviour
 
     public string CanContinue(GameStateData gameData)
     {
+        if(gameData.HasHealthDebt && gameData.HasFuelDebt)
+        {
+            return GameOverReasons.NoFuelDiedInTransit;
+        }
+
+        if(gameData.HasHealthDebt)
+        {
+            return GameOverReasons.DiedInTransit;
+        }
+
+        if(gameData.HasFuelDebt)
+        {
+            return GameOverReasons.NoFuelInTransit;
+        }
+
         // Make sure we have fuel or can get some
         if(false == gameData.HasFuelLeft && false == CurrentNode.HasFuel)
         {
-            return ReasonNoFuel;
+            return GameOverReasons.NoFuel;
         }
 
         // Make sure we have health or can repair
         if(false == gameData.HasHealthLeft && false == gameData.CanRepair && CurrentNode.Resources < gameData.RepairCost)
         {
-            return ReasonNoHealth;
+            return GameOverReasons.NoHealth;
         }
 
+        return null;
+
         // See if we can travel to another node
-        List<Route> routes = _map.FindLinkedRoutes(CurrentNodeId);
+        /*List<Route> routes = _map.FindLinkedRoutes(CurrentNodeId);
         if(routes.Count > 0)
         {
             foreach(Route route in routes)
@@ -176,10 +193,10 @@ public class Player : MonoBehaviour
         else
         {
             // How did we get here is there are not routes?
-            return ReasonNoRoutes;
+            return GameOverReasons.NoRoutes;
         }
 
         // Generic reason
-        return ReasonCost;
+        return GameOverReasons.Cost;*/
     }
 }

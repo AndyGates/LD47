@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _actionDefinitions:
-  - ActionType: 1
+  - ActionType: 6
     Text: LEAVE
     Time: 0
     Fuel: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   _nodeOverviewUI: {fileID: 1603225072}
   _playerHUD: {fileID: 1845637849}
   _startScreen: {fileID: 895624534}
-  _gameOverScreen: {fileID: 1855842354}
+  _gameOverScreen: {fileID: 1855842356}
   _winnersScreen: {fileID: 5600975477569876748}
 --- !u!4 &361109894
 Transform:
@@ -1200,16 +1200,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b4bf1301afeea45832332f059cfdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1855842354 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6061033703163106144, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
-  m_PrefabInstance: {fileID: 6061033702851935058}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1855842355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6061033703163106145, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
   m_PrefabInstance: {fileID: 6061033702851935058}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1855842356 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8371051041889469848, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
+  m_PrefabInstance: {fileID: 6061033702851935058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e3746111292f542962885b8b82f3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2069373225
 PrefabInstance:
   m_ObjectHideFlags: 0

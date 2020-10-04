@@ -45,6 +45,9 @@ public class GameStateData
     public bool HasResourcesLeft{ get => Resources > 0; }
     public bool HasHealthLeft{ get => Health > 0; }
 
+    public bool HasHealthDebt{ get => Health < 0; }
+    public bool HasFuelDebt{ get => Health < 0; }
+
     public bool CanRepair{ get => Resources >= RepairCost; }
 
     public void ResetAll()
@@ -65,6 +68,8 @@ public class GameStateData
         OperationTime -= cost.Time;
         Fuel -= cost.Fuel;
         Health -= cost.Health;
+
+        Debug.Log($"After travel costs we have: Time={OperationTime}, Fuel={Fuel}, Health={Health}");
     }
 
     public bool CanAffordTravel(TravelCost cost)

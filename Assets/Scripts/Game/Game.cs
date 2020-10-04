@@ -164,20 +164,39 @@ public class Game : MonoBehaviour
     {
         Debug.Log($"Travel completed. {GameData.OperationTime}s of travel time left");
 
-        // Check not game over
-        OnActionCompleted(GameAction.Travel);
-
         if(_map.GetNodeType(_player.CurrentNodeId) == _goalNodeType)
         {
-            Debug.Log("Well done you escaped the loop");
-            GameData.State = GameState.Complete;
-
-            Win();
+            // Make sure we could afford the travel before winning
+            if(GameData.CanAffordTravel(_activeTravelCost))
+            {
+                Debug.Log("Well done you escaped the loop");
+                GameData.State = GameState.Complete;
+                Win();
+            }
+            else
+            {
+                if(false == GameData.HasEnoughTime(_activeTravelCost.Time))
+                {
+                    Debug.Log("So close but the anomaly got you. Anomaly starting...");
+                    ShowRouteSelectionScreen();
+                    StartAnomaly();
+                }
+                else if(false == GameData.HasEnoughHealth(_activeTravelCost.Health))
+                {
+                    GameOver(GameOverReasons.NoHealth);
+                }
+                else if(false == GameData.HasEnoughFuel(_activeTravelCost.Fuel))
+                {
+                    GameOver(GameOverReasons.NoFuel);
+                }
+            }
         }
         else
         {
             GameData.ApplyTravelCost(_activeTravelCost);
             _activeTravelCost = null;
+
+            OnActionCompleted(GameAction.Travel);
         }
 
         _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
@@ -233,7 +252,7 @@ public class Game : MonoBehaviour
             }
         }
 
-        actions.Add(_actionMap[GameAction.Travel]);
+        actions.Add(_actionMap[GameAction.ViewRoutes]);
         return actions;
     }
 
@@ -308,6 +327,9 @@ public class Game : MonoBehaviour
         else if(action == GameAction.ViewRoutes)
         {
             ShowRouteSelectionScreen();
+
+            GameData.Action = GameAction.Travel;
+            GameData.State = GameState.ConfiguringAction;
         }
     }
     void OnActionCompleted(GameAction action)
