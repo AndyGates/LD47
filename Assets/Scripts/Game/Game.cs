@@ -175,19 +175,19 @@ public class Game : MonoBehaviour
             }
             else
             {
-                if(false == GameData.HasEnoughTime(_activeTravelCost.Time))
-                {
-                    Debug.Log("So close but the anomaly got you. Anomaly starting...");
-                    ShowRouteSelectionScreen();
-                    StartAnomaly();
-                }
-                else if(false == GameData.HasEnoughHealth(_activeTravelCost.Health))
+                if(false == GameData.HasEnoughHealth(_activeTravelCost.Health))
                 {
                     GameOver(GameOverReasons.NoHealth);
                 }
                 else if(false == GameData.HasEnoughFuel(_activeTravelCost.Fuel))
                 {
                     GameOver(GameOverReasons.NoFuel);
+                }
+                if(false == GameData.HasEnoughTime(_activeTravelCost.Time))
+                {
+                    Debug.Log("So close but the anomaly got you. Anomaly starting...");
+                    ShowRouteSelectionScreen();
+                    StartAnomaly();
                 }
             }
         }

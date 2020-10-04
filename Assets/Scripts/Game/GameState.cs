@@ -35,7 +35,7 @@ public class GameStateData
 
     public int RepairCost{ get; set; }
 
-    public int MaxOperationTime { get => 24; }
+    public int MaxOperationTime { get => 10; }
     public int StartFuel{  get => 30; }
     public int StartResources { get => 0; }
     public int StartHealth { get => 10; }
