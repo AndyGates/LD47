@@ -44,7 +44,6 @@ public class Map : MonoBehaviour
                 return route;
             }
         }
-        Debug.Log($"Failed to find route from {fromId} to {toId}");
         return null;
     }
 
