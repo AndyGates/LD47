@@ -113,7 +113,7 @@ public class Game : MonoBehaviour
     List<ActionData> GetAvailableActions(List<GameAction> nodeActions)
     {
         //Can always leave
-        List<ActionData> actions = new List<ActionData>() { _actionMap[GameAction.Travel] };
+        List<ActionData> actions = new List<ActionData>();
 
         foreach(GameAction ga in nodeActions)
         {
@@ -147,6 +147,7 @@ public class Game : MonoBehaviour
             }
         }
 
+        actions.Add(_actionMap[GameAction.Travel]);
         return actions;
     }
 
