@@ -114,22 +114,32 @@ public class Game : MonoBehaviour
     {
         if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel)
         {
-            bool canTravel = _player.CanTravelToNode(node);
-            TravelCost cost = _player.CalculateTravelCost(node);
-            bool canAffordTravel = GameData.CanAffordTravel(cost);
-            if(canTravel && canAffordTravel)
+            // Dont travel to a node we are already on just open the action screen
+            if(node.Id == _player.CurrentNodeId)
             {
-                _player.TravelToNode(node);
-                GameData.ApplyTravelCost(cost);
-                GameData.State = GameState.RunningAction;
-
-                _map.TickNodes(cost.Time);
-
-                Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+                GameData.State = GameState.ChoosingAction;
+                ShowActionSelectionScreen();
             }
             else
             {
-                Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
+                bool canTravel = _player.CanTravelToNode(node);
+                TravelCost cost = _player.CalculateTravelCost(node);
+                bool canAffordTravel = GameData.CanAffordTravel(cost);
+                if(canTravel && canAffordTravel)
+                {
+                    _player.TravelToNode(node);
+                    GameData.ApplyTravelCost(cost);
+
+                    GameData.State = GameState.RunningAction;
+
+                    _map.TickNodes(cost.Time);
+
+                    Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+                }
+                else
+                {
+                    Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
+                }
             }
         }
     }
