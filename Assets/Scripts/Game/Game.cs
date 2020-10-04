@@ -229,7 +229,7 @@ public class Game : MonoBehaviour
         //Combine these with the actions the player can currently do and get the action data 
         List<ActionData> availableActions = GetAvailableActions(nodeActions, _player.CurrentNode);
 
-        _actionSelectionScreen.Show(availableActions);
+        _actionSelectionScreen.Show(availableActions, _player.CurrentNode);
     }
 
     void ShowRouteSelectionScreen()
