@@ -1,7 +1,5 @@
 ---
 
-# node types: 0 = home, 1 = goal, 2 = base
-
 nodes:
   - name: Home
     id: 0
@@ -16,7 +14,8 @@ nodes:
     coords:
       x: -3
       y: 1.03
-    resources: 10
+    resources: 25
+    fuel: 20
 
   - name: BluePlanet01
     id: 2
@@ -24,7 +23,8 @@ nodes:
     coords:
       x: -0.99
       y: -1.99
-    fuel: 10
+    resources: 0
+    building_spaces: 1
 
   - name: RedPlanet01
     id: 3
@@ -32,6 +32,8 @@ nodes:
     coords:
       x: 1.55
       y: 1.25
+    resources: 10
+    building_spaces: 1
 
   - name: Asteroid02
     id: 4
@@ -39,52 +41,125 @@ nodes:
     coords:
       x: 2.99
       y: -2.07
+    fuel: 10
+    resources: 10
+    building_spaces: 1
 
   - name: BluePlanet02
-    id: 100
+    id: 5
     type: 
     coords:
       x: 5
       y: 0
+    resources: 10
+    building_spaces: 1
+
+  - name: Asteroid03
+    id: 6
+    type: 2
+    coords:
+      x: 7
+      y: 1.03
+    resources: 25
+    fuel: 20
+
+  - name: BluePlanet03
+    id: 7
+    type: 0
+    coords:
+      x: 9
+      y: -1.99
+    resources: 0
+    building_spaces: 1
+    fuel: 20
+
+  - name: RedPlanet03
+    id: 8
+    type: 1
+    coords:
+      x: 11
+      y: 1.25
+    resources: 10
+    building_spaces: 1
+    fuel: 20
+
+  - name: Goal
+    id: 100
+    type: 100
+    coords:
+      x: 15
+      y: 0
 
 routes:
+  # From start to Asteroid01
   - from: 0
     to: 1
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From start to BluePlanet01
   - from: 0
     to: 2
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From Asteroid01 to BluePlanet01
   - from: 1
     to: 2
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From Asteroid01 to RedPlanet01
   - from: 1
     to: 3
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From BluePlanet01 to RedPlanet01
   - from: 2
     to: 3
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From BluePlanet01 to Asteroid02
   - from: 2
     to: 4
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From RedPlanet01 to Asteroid02
   - from: 3
     to: 4
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # From Asteroid02 to BluePlanet02
   - from: 4
+    to: 5
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # From BluePlanet02 to Asteroid03
+  - from: 5
+    to: 6
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # From Asteroid03 to BluePlanet03
+  - from: 6
+    to: 7
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # From BluePlanet03 to RedPlanet03
+  - from: 7
+    to: 8
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # From RedPlanet03 to Goal
+  - from: 8
     to: 100
-    travel_time: 2
+    travel_time: 1
     fuel_cost: 10
     health_cost: 3

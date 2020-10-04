@@ -55,7 +55,7 @@ public class LineRenderer : MonoBehaviour
     {
         float worldToPixel = _camera.assetsPPU * 2.0f;
 
-        return new Vector2(ToPixelSpace(p.x, _width, worldToPixel), ToPixelSpace(p.y, _height, worldToPixel));
+        return new Vector2(ToPixelSpace(p.x - _camera.transform.position.x, _width, worldToPixel), ToPixelSpace(p.y, _height, worldToPixel));
     }
 
     float ToPixelSpace(float v, float dim, float worldToPixel)

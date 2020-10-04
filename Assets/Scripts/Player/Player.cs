@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     {
         _currentNodeId = _homeNodeId = nodeId;
         transform.position = _map.GetNodeCoords(nodeId);
+        transform.right = Vector3.right;
     }
 
     public bool CanTravelToNode(Node node)
@@ -116,5 +117,39 @@ public class Player : MonoBehaviour
     public void OnAnomalyComplete()
     {
         RetractHomeComplete.Invoke();
+    }
+
+    public bool TravelActionValid(GameStateData gameData)
+    {
+        Node currentNode = _map.FindNode(GetCurrentNodeId());
+
+        // Make sure we have fuel and time
+        if(false == gameData.HasFuelLeft)
+        {
+            Debug.Log("Ran out of fuel");
+            return false;
+        }
+
+        // See if we can travel to another node
+        List<Route> routes = _map.FindLinkedRoutes(GetCurrentNodeId());
+        if(routes.Count > 0)
+        {
+            foreach(Route route in routes)
+            {
+                TravelCost cost = CalculateTravelCost(currentNode);
+                if(false == gameData.CanAffordTravel(cost))
+                {
+                    return true; // We can travel to atleast 1 node
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("No routes to check");
+            return false;
+        }
+
+        Debug.Log("Cannot afford to travel");
+        return false;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    NotStarted,
     ChoosingAction,     // Waiting for the user to choose their next action
     ConfiguringAction,  // Waiting for the user to configure the action. Choose node to travel to, building to build...
     RunningAction,      // We are traveling a route
@@ -23,7 +24,7 @@ public enum GameAction
 
 public class GameStateData
 {
-    public GameState State { get; set; } = GameState.ChoosingAction;
+    public GameState State { get; set; } = GameState.NotStarted;
     public GameAction Action{ get; set; } = GameAction.None;
 
     public int OperationTime { get; set; } // The amount of time available for operations
@@ -31,10 +32,10 @@ public class GameStateData
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
 
-    public int MaxOperationTime { get => 12; }
-    public int MaxFuel{  get => 100; }
-    public int MaxResources { get => 25; }
-    public int MaxHealth { get => 100; }
+    public int MaxOperationTime { get => 24; }
+    public int StartFuel{  get => 30; }
+    public int StartResources { get => 0; }
+    public int StartHealth { get => 100; }
 
     public bool HasOperationTimeLeft{ get => OperationTime > 0; }
     public bool HasFuelLeft{ get => Fuel > 0; }
@@ -44,9 +45,9 @@ public class GameStateData
     public void ResetAll()
     {
         OperationTime = MaxOperationTime;
-        Fuel = MaxFuel;
-        Health = MaxHealth;
-        Resources = MaxResources;
+        Fuel = StartFuel;
+        Health = StartHealth;
+        Resources = StartResources;
     }
 
     public void ResetAnomaly()
@@ -67,7 +68,7 @@ public class GameStateData
         {
             return false;
         }
-        
+
         return OperationTime - cost.Time >= 0 &&
             Fuel - cost.Fuel >= 0 &&
             Health - cost.Health >= 0;

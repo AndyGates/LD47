@@ -19,6 +19,19 @@ public class Map : MonoBehaviour
     Dictionary<int, Node> _nodes;
     List<Route> _routes;
 
+    public void ResetAll()
+    {
+        foreach(Node node in _nodes.Values)
+        {
+            node.ResetAll();
+        }
+
+        foreach(Route route in _routes)
+        {
+            route.ResetAll();
+        }
+    }
+
     public Vector2 GetNodeCoords(int nodeId)
     {
         return FindNode(nodeId).Coords;
@@ -47,7 +60,20 @@ public class Map : MonoBehaviour
         return null;
     }
 
-    Node FindNode(int id)
+    public List<Route> FindLinkedRoutes(int nodeId)
+    {
+        List<Route> routes = new List<Route>();
+        foreach(Route route in _routes)
+        {
+            if(route.From == nodeId || route.To == nodeId)
+            {
+                routes.Add(route);
+            }
+        }
+        return routes;
+    }
+
+    public Node FindNode(int id)
     {
         return _nodes[id];
     }

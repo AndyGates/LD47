@@ -34,6 +34,11 @@ public class Route
         HealthCost = healthCost;
     }
 
+    public void ResetAll()
+    {
+        _state = RouteState.Undiscovered;
+    }
+
     public void TravelRoute()
     {
         Debug.Log($"Travel from {From} to {To}");

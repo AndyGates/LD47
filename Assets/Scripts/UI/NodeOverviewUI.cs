@@ -12,6 +12,9 @@ public class NodeOverviewUI : MonoBehaviour
     Text _availableResources = null;
 
     [SerializeField]
+    Text _availableSpaces = null;
+
+    [SerializeField]
     GameObject _travelCostUI = null;
 
     [SerializeField]
@@ -23,13 +26,13 @@ public class NodeOverviewUI : MonoBehaviour
     [SerializeField]
     Text _fuelCost = null;
 
-
     public void SetNode(Node node)
     {
         transform.position = node.Coords;
 
         _availableFuel.text = node.Fuel.ToString();
         _availableResources.text = node.Resources.ToString();
+        _availableSpaces.text = node.BuildingSpaces.ToString();
     }
 
     public void SetTravelCost(TravelCost cost)

@@ -31,6 +31,15 @@ public class Game : MonoBehaviour
     [SerializeField]
     PlayerHUD _playerHUD = null;
 
+    [SerializeField]
+    GameObject _startScreen = null;
+
+    [SerializeField]
+    GameObject _gameOverScreen = null;
+
+    [SerializeField]
+    GameObject _winnersScreen = null;
+
     int _startNodeId = 0;
 
     GameStateData GameData { get; set; } = new GameStateData();
@@ -53,12 +62,48 @@ public class Game : MonoBehaviour
 
         _actionSelectionScreen.ActionSelected += ApplyAction;
 
+        _playerHUD.SetGameState(GameData);
+    }
+
+    public void StartGame()
+    {
         GameData.ResetAll();
 
-        GameData.Action = GameAction.Travel;
         GameData.State = GameState.ConfiguringAction;
+        GameData.Action = GameAction.Travel;
 
-        _playerHUD.SetGameState(GameData);
+        _playerHUD.gameObject.SetActive(true);
+        _routeSelectionScreen.gameObject.SetActive(true);
+        _startScreen.SetActive(false);
+        _gameOverScreen.SetActive(false);
+        _winnersScreen.SetActive(false);
+
+        _map.ResetAll();
+        _player.SetAtNodeId(_startNodeId);
+        _map.MarkNodeRoutesAsDiscovered(_startNodeId);
+    }
+
+    public void RestartGame()
+    {
+        StartGame();
+    }
+
+    public void GameOver()
+    {
+        _playerHUD.gameObject.SetActive(false);
+        _routeSelectionScreen.gameObject.SetActive(false);
+        _startScreen.SetActive(false);
+        _gameOverScreen.SetActive(true);
+        _winnersScreen.SetActive(false);
+    }
+
+    public void Win()
+    {
+        _playerHUD.gameObject.SetActive(false);
+        _routeSelectionScreen.gameObject.SetActive(false);
+        _startScreen.SetActive(false);
+        _gameOverScreen.SetActive(false);
+        _winnersScreen.SetActive(true);
     }
 
     void OnNodeSelected(Node node)
@@ -100,6 +145,8 @@ public class Game : MonoBehaviour
         {
             Debug.Log("Well done you escaped the loop");
             GameData.State = GameState.Complete;
+
+            Win();
         }
         else
         {
@@ -181,7 +228,7 @@ public class Game : MonoBehaviour
     }
 
     void OnPlayerAnomalyComplete()
-{
+    {
         GameData.Action = GameAction.Travel;
         GameData.State = GameState.ConfiguringAction;
         GameData.ResetAnomaly();
@@ -194,15 +241,33 @@ public class Game : MonoBehaviour
         if(_actionMap.ContainsKey(action))
         {
             ActionData data = _actionMap[action];
+            GameData.Action = action;
             // TODO Do action stuff
-            Debug.Log($"Doing action {action}");
+            Debug.Log($"Doing action {data.ToString()}");
+
+            switch(action)
+            {
+                case GameAction.Mine:
+                    DoMineAction(data);
+                    break;
+                case GameAction.Collect:
+                    DoCollectFuel(data);
+                    break;
+                case GameAction.Build:
+                    DoBuildRefinery(data);
+                    break;
+            }
         }
 
         //TODO only do this on travel? Can we do more than one action at a node before travelling?
         ShowRouteSelectionScreen();
 
-        // Action completed now allow user to select node or retract to home
-        if(false == GameData.HasOperationTimeLeft)
+        // Action completed now allow user to select node, retract to home or game over if they cannot travel
+        if(false == _player.TravelActionValid(GameData))
+        {
+            GameOver();
+        }
+        else if(false == GameData.HasOperationTimeLeft)
         {
             Debug.Log("Ran out of travel time. Anomaly starting...");
             StartAnomaly();
@@ -212,5 +277,29 @@ public class Game : MonoBehaviour
             GameData.Action = GameAction.Travel;
             GameData.State = GameState.ConfiguringAction;
         }
+    }
+
+    void DoMineAction(ActionData data)
+    {
+        GameData.OperationTime -= data.Time;
+        GameData.Resources += data.Resources;
+
+        _map.FindNode(_player.GetCurrentNodeId()).Resources -= data.Resources;
+    }
+
+    void DoCollectFuel(ActionData data)
+    {
+        GameData.OperationTime -= data.Time;
+        GameData.Fuel += data.Fuel;
+
+        _map.FindNode(_player.GetCurrentNodeId()).Fuel -= data.Fuel;
+    }
+
+    void DoBuildRefinery(ActionData data)
+    {
+        GameData.OperationTime -= data.Time;
+        GameData.Resources += data.Resources;
+
+        _map.FindNode(_player.GetCurrentNodeId()).BuildingSpaces--;
     }
 }
