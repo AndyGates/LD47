@@ -107,6 +107,18 @@ public class Map : MonoBehaviour
         }
     }
 
+    public List<GameAction> GetAvailableActions(int nodeId)
+    {
+        List<GameAction> actions = new List<GameAction>();
+        Node n = FindNode(nodeId);
+
+        if(n.BuildingSpaces > 0) actions.Add(GameAction.Build);
+        if(n.Fuel > 0) actions.Add(GameAction.Collect);
+        if(n.Resources > 0) actions.Add(GameAction.Mine);
+
+        return actions;
+    }
+
     GameObject CreateNodeVisual(Node node)
     {
         GameObject go = GameObject.Instantiate(_mapAssets.GteNodePrefab(node.Type), node.Coords, Quaternion.identity, transform);

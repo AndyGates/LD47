@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class Game : MonoBehaviour
 {
+    [SerializeField]
+    List<ActionData> _actionDefinitions;
+
     [SerializeField]
     TextAsset _mapData = null;
 
@@ -25,9 +28,13 @@ public class Game : MonoBehaviour
     int _startNodeId = 0;
 
     GameStateData GameData { get; set; } = new GameStateData();
+        
+    Dictionary<GameAction, ActionData> _actionMap; 
 
     void Awake()
     {
+        _actionMap = _actionDefinitions.ToDictionary(x => x.ActionType, x => x);
+
         _map.LoadMap(_mapData);
         _map.NodeSelected += OnNodeSelected;
 
@@ -89,16 +96,65 @@ public class Game : MonoBehaviour
         _map.MarkNodeRoutesAsDiscovered(_player.GetCurrentNodeId());
     }
 
+    List<ActionData> GetAvailableActions(List<GameAction> nodeActions)
+    {
+        //Can always leave
+        List<ActionData> actions = new List<ActionData>() { _actionMap[GameAction.Travel] };
+
+        foreach(GameAction ga in nodeActions)
+        {
+            if(_actionMap.ContainsKey(ga))
+            {
+                ActionData data = _actionMap[ga];
+
+                //Only add the action if the player has time
+                if(GameData.OperationTime >= data.Time)
+                {
+                    switch(ga)
+                    {
+                        //Only add these actions if the player has the resources
+                        case GameAction.Build:
+                        case GameAction.Upgrade:
+                            if(GameData.Resources >= data.Resources)
+                            {
+                                actions.Add(data);
+                            }
+                            break;
+
+                        default:
+                            actions.Add(data);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError($"Could not find action rule for {ga}");
+            }
+        }
+
+        return actions;
+    }
+
     void ShowActionSelectionScreen()
     {              
+        //Probably need a better way of doing this
         _routeSelectionScreen.SetActive(false);
-
         _actionSelectionScreen.gameObject.SetActive(true);
-        _actionSelectionScreen.Show(null);
+
+        //This probably shouldn't be done here...
+        //Get the actions available from the node 
+        List<GameAction> nodeActions = _map.GetAvailableActions(_player.GetCurrentNodeId());
+
+        //Combine these with the actions the player can currently do and get the action data 
+        List<ActionData> availableActions = GetAvailableActions(nodeActions);
+
+        _actionSelectionScreen.Show(availableActions);
     }
 
     void ShowRouteSelectionScreen()
     {
+        //Probably need a better way of doing this
         _actionSelectionScreen.gameObject.SetActive(false);
         _routeSelectionScreen.SetActive(true);
     }
@@ -118,7 +174,7 @@ public class Game : MonoBehaviour
         Debug.Log("Anomaly completed");
     }
 
-    void ApplyAction(Action action)
+    void ApplyAction(ActionData action)
     {
         // TODO Do action stuff
 

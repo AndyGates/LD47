@@ -8,22 +8,22 @@ public class ActionListItem : MonoBehaviour
     public event System.Action Selected;
 
     [SerializeField]
-    Image _fuelIcon;
+    Image _fuelIcon = null;
 
     [SerializeField]
-    Text _fuelText;
+    Text _fuelText = null;
 
     [SerializeField]
-    Image _resourcesIcon; 
+    Image _resourcesIcon = null; 
 
     [SerializeField]
-    Text _resourcesText;
+    Text _resourcesText = null;
 
     [SerializeField]
-    Text _timeText;
+    Text _timeText = null;
 
     [SerializeField]
-    Text _nameText;
+    Text _nameText = null;
 
     public void SetData(string name, int time, int fuel, int resources)
     {       

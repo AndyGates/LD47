@@ -16,6 +16,7 @@ nodes:
     coords:
       x: -3
       y: 1.03
+    resources: 10
 
   - name: BluePlanet01
     id: 2
@@ -23,6 +24,7 @@ nodes:
     coords:
       x: -0.99
       y: -1.99
+    fuel: 10
 
   - name: RedPlanet01
     id: 3
