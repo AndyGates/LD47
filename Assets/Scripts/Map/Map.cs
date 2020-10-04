@@ -12,6 +12,9 @@ public class Map : MonoBehaviour
     [SerializeField]
     GameObject _routePrefab = null;
 
+    [SerializeField]
+    bool _discoverAllRoutes = false;
+
     public event System.Action<Route> RouteSelected;
     public event System.Action<Node> NodeSelected;
     public event System.Action<Node, bool> NodeHover;
@@ -19,6 +22,22 @@ public class Map : MonoBehaviour
     Dictionary<int, Node> _nodes;
     Dictionary<int, NodeVisual> _nodeVisuals;
     List<Route> _routes;
+
+    void Update()
+    {
+        if(_discoverAllRoutes)
+        {
+            foreach(Route route in _routes)
+            {
+                if(route.State == RouteState.Undiscovered)
+                {
+                    route.State = RouteState.Untraveled;
+                }
+            }
+
+            _discoverAllRoutes = false;
+        }
+    }
 
     public void ResetAll()
     {
@@ -153,6 +172,8 @@ public class Map : MonoBehaviour
         interact.Node = node;
         interact.NodeSelected += OnNodeSelected;
         interact.NodeHover += OnNodeHover;
+
+        node.Visual = go.GetComponent<NodeVisual>();
 
         return go;
     }

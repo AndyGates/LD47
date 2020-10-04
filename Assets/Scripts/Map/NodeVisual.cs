@@ -7,6 +7,8 @@ public class NodeVisual : MonoBehaviour
     [SerializeField]
     GameObject _outline = null;
 
+    public bool CanOutline { get; set; } = false;
+
     void Awake()
     {
         if(_outline == null)
@@ -21,7 +23,10 @@ public class NodeVisual : MonoBehaviour
 
     void OnMouseOver()
     {
-        _outline.SetActive(true);
+        if(CanOutline)
+        {
+            _outline.SetActive(true);
+        }
     }
 
     void OnMouseExit()

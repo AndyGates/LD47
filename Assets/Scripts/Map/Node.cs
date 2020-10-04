@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum NodeState
+{
+    Undiscovered, // Undiscovered and cannot travel too
+    CanTravel, // Undiscovered but can travel too
+    Discovered,
+}
+
 public class Node
 {
     public string Name{ get; }
@@ -11,6 +18,10 @@ public class Node
     public int Fuel { get; set; }
     public int Resources { get; set; }
     public int BuildingSpaces { get; set; }
+
+    public NodeState State { get; set; }
+
+    public NodeVisual Visual { get; set; }
 
     readonly int DefaultFuel = 0;
     readonly int DefaultResources = 0;
@@ -32,6 +43,12 @@ public class Node
         Fuel = DefaultFuel;
         Resources = DefaultResources;
         BuildingSpaces = DefaultBuildingSpaces;
+        State = NodeState.Undiscovered;
+
+        if(Visual != null)
+        {
+            Visual.CanOutline = false;
+        }
     }
 
     public void UpdateTicks(int ticks)
@@ -39,4 +56,16 @@ public class Node
         int buildings = DefaultBuildingSpaces - BuildingSpaces;
     }
 
+    public void OnCanTravelTo()
+    {
+        if(Visual != null)
+        {
+            Visual.CanOutline = true;
+        }
+
+        if(State == NodeState.Undiscovered)
+        {
+            State = NodeState.CanTravel;
+        }
+    }
 }
