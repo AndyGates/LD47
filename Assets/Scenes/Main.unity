@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 519420031}
-  _scrollRatio: 0.9
+  _scrollRatio: 0.8
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

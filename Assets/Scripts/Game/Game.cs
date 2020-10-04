@@ -74,6 +74,7 @@ public class Game : MonoBehaviour
 
         _playerHUD.gameObject.SetActive(true);
         _routeSelectionScreen.gameObject.SetActive(true);
+        _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
         _gameOverScreen.SetActive(false);
         _winnersScreen.SetActive(false);
@@ -92,6 +93,7 @@ public class Game : MonoBehaviour
     {
         _playerHUD.gameObject.SetActive(false);
         _routeSelectionScreen.gameObject.SetActive(false);
+        _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
         _gameOverScreen.SetActive(true);
         _winnersScreen.SetActive(false);
@@ -101,6 +103,7 @@ public class Game : MonoBehaviour
     {
         _playerHUD.gameObject.SetActive(false);
         _routeSelectionScreen.gameObject.SetActive(false);
+        _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
         _gameOverScreen.SetActive(false);
         _winnersScreen.SetActive(true);
