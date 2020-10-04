@@ -62,7 +62,8 @@ public class Game : MonoBehaviour
 
         _actionSelectionScreen.ActionSelected += ApplyAction;
 
-        _playerHUD.SetGameState(GameData);
+        _playerHUD.GameState = GameData;
+        _nodeOverviewUI.GameData = GameData;
     }
 
     public void StartGame()

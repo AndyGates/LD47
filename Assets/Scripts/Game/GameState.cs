@@ -69,8 +69,23 @@ public class GameStateData
             return false;
         }
 
-        return OperationTime - cost.Time >= 0 &&
-            Fuel - cost.Fuel >= 0 &&
-            Health - cost.Health >= 0;
+        return HasEnoughTime(cost.Time) &&
+            HasEnoughFuel(cost.Fuel) &&
+            HasEnoughHealth(cost.Health);
+    }
+
+    public bool HasEnoughTime(int timeCost)
+    {
+        return OperationTime - timeCost >= 0;
+    }
+
+    public bool HasEnoughFuel(int fuelCost)
+    {
+        return Fuel - fuelCost >= 0;
+    }
+
+    public bool HasEnoughHealth(int healthCost)
+    {
+        return Health - healthCost >= 0;
     }
 }
