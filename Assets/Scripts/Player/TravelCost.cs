@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct TravelCost
+public class TravelCost
 {
     public int Time { get; set; }
     public int Fuel { get; set; }

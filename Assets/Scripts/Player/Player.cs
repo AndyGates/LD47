@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 
     public bool CanTravelToNode(Node node)
     {
-        return node.Id != _currentNodeId && _map.IsRouteAvailble(_currentNodeId, node.Id);
+        return node.Id != _currentNodeId && _map.IsRouteAvailable(_currentNodeId, node.Id);
     }
 
     public int CalculateTravelTime(Route route)
@@ -55,12 +55,17 @@ public class Player : MonoBehaviour
     {
         Route route = _map.FindRoute(_currentNodeId, node.Id);
 
-        return new TravelCost()
+        TravelCost cost = null;
+        if(route != null)
         {
-            Time = CalculateTravelTime(route),
-            Fuel = route.FuelCost,
-            Health = route.HealthCost
-        };
+            cost =  new TravelCost()
+            {
+                Time = CalculateTravelTime(route),
+                Fuel = route.FuelCost,
+                Health = route.HealthCost
+            };
+        }
+        return cost;
     }
 
     public TravelCost TravelToNode(Node node)

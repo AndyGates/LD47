@@ -25,6 +25,9 @@ public class Game : MonoBehaviour
     [SerializeField]
     NodeOverviewUI _nodeOverviewUI = null;
 
+    [SerializeField]
+    PlayerHUD _playerHUD = null;
+
     int _startNodeId = 0;
 
     GameStateData GameData { get; set; } = new GameStateData();
@@ -47,6 +50,8 @@ public class Game : MonoBehaviour
 
         GameData.Action = GameAction.Travel;
         GameData.State = GameState.ConfiguringAction;
+
+        _playerHUD.SetGameState(GameData);
     }
 
     void OnNodeSelected(Node node)
@@ -75,6 +80,9 @@ public class Game : MonoBehaviour
     {
         _nodeOverviewUI.gameObject.SetActive(!exited);
         _nodeOverviewUI.SetNode(node);
+
+        TravelCost cost = _player.CalculateTravelCost(node);
+        _nodeOverviewUI.SetTravelCost(cost);
     }
 
     void OnPlayerTravelComplete()

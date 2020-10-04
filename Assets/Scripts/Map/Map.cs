@@ -29,7 +29,7 @@ public class Map : MonoBehaviour
         return FindNode(nodeId).Type;
     }
 
-    public bool IsRouteAvailble(int fromId, int toId)
+    public bool IsRouteAvailable(int fromId, int toId)
     {
         return FindRoute(fromId, toId) != null;
     }
