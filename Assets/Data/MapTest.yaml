@@ -31,7 +31,7 @@ nodes:
     type: 1
     coords:
       x: 1.55
-      y: 1.53
+      y: 1.25
 
   - name: Asteroid02
     id: 4
@@ -44,7 +44,7 @@ nodes:
     id: 100
     type: 
     coords:
-      x: 5.41
+      x: 5
       y: 0
 
 routes:
