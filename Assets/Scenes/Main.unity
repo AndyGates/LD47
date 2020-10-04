@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackgroundMusic
       objectReference: {fileID: 0}
+    - target: {fileID: 4918405426266724731, guid: 5d4333c2b34107248af153660488694e, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 15926a8403eea8b4384819f8b3f75a0a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d4333c2b34107248af153660488694e, type: 3}
 --- !u!1 &1197227826 stripped

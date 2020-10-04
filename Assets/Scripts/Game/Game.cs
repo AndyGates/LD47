@@ -176,7 +176,7 @@ public class Game : MonoBehaviour
                         //Only add these actions if the player has the resources
                         case GameAction.Build:
                         case GameAction.Upgrade:
-                            if(GameData.Resources >= data.Resources)
+                            if(GameData.Resources >= -data.Resources)
                             {
                                 actions.Add(data);
                             }
