@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
             Node toNode = _map.FindNode(linkedRoute.To);
             toNode.OnCanTravelTo();
 
-            Node fromNode = _map.FindNode(linkedRoute.To);
+            Node fromNode = _map.FindNode(linkedRoute.From);
             fromNode.OnCanTravelTo();
         }
     }

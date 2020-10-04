@@ -142,7 +142,7 @@ public class Map : MonoBehaviour
     {
         foreach(Route route in _routes)
         {
-            if(route.From == nodeId)
+            if(route.From == nodeId || route.To == nodeId)
             {
                 if(route.State == RouteState.Undiscovered)
                 {
@@ -167,8 +167,7 @@ public class Map : MonoBehaviour
     GameObject CreateNodeVisual(Node node)
     {
         GameObject go = GameObject.Instantiate(_mapAssets.GteNodePrefab(node.Type), node.Coords, Quaternion.identity, transform);
-        NodeVisual nv = go.GetComponent<NodeVisual>();
-        nv?.SetNode(node);
+        go.name = node.Name;
 
         NodeInteraction interact = go.AddComponent<NodeInteraction>();
         interact.Node = node;
@@ -176,6 +175,7 @@ public class Map : MonoBehaviour
         interact.NodeHover += OnNodeHover;
 
         node.Visual = go.GetComponent<NodeVisual>();
+        node.Visual?.SetNode(node);
 
         return go;
     }
@@ -183,6 +183,10 @@ public class Map : MonoBehaviour
     GameObject CreateRouteVisual(Route route)
     {
         GameObject go = GameObject.Instantiate(_routePrefab, transform);
+
+        string fromName = FindNode(route.From).Name;
+        string toName = FindNode(route.To).Name;
+        go.name = $"Route {fromName} -> {toName}";
 
         RouteInteraction interact = go.AddComponent<RouteInteraction>();
         interact.Route = route;

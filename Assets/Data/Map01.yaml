@@ -1,11 +1,11 @@
 ---
 
 nodes:
-  - name: Home
+  - name: Anomaly
     id: 0
     type: 1
     coords:
-      x: -5.36
+      x: -5
       y: 0
 
   - name: Asteroid01
@@ -73,7 +73,7 @@ nodes:
     building_spaces: 1
     fuel: 20
 
-  - name: RedPlanet03
+  - name: RedPlanet02
     id: 8
     type: 1
     coords:
@@ -91,73 +91,90 @@ nodes:
       y: 0
 
 routes:
-  # From start to Asteroid01
+  # From Anomaly
+  # To Asteroid01
   - from: 0
     to: 1
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From start to BluePlanet01
+  # To BluePlanet01
   - from: 0
     to: 2
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From Asteroid01 to BluePlanet01
+
+  # From Asteroid01 
+  # To BluePlanet01
   - from: 1
     to: 2
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From Asteroid01 to RedPlanet01
+  # To RedPlanet01
   - from: 1
     to: 3
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From BluePlanet01 to RedPlanet01
+
+  # From BluePlanet01
+  # To RedPlanet01
   - from: 2
     to: 3
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From BluePlanet01 to Asteroid02
+  # To Asteroid02
   - from: 2
     to: 4
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From RedPlanet01 to Asteroid02
+
+  # From RedPlanet01 
+  # To Asteroid02
   - from: 3
     to: 4
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From Asteroid02 to BluePlanet02
+
+  # From Asteroid02 
+  # To BluePlanet02
   - from: 4
     to: 5
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From BluePlanet02 to Asteroid03
+
+  # From BluePlanet02 
+  # To Asteroid03
   - from: 5
     to: 6
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From Asteroid03 to BluePlanet03
+
+  # From Asteroid03 
+  # To BluePlanet03
   - from: 6
     to: 7
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From BluePlanet03 to RedPlanet03
+
+  # From BluePlanet03 
+  # To RedPlanet02
   - from: 7
     to: 8
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # From RedPlanet03 to Goal
+
+  # From RedPlanet02 
+  # To Goal
   - from: 8
     to: 100
     travel_time: 1

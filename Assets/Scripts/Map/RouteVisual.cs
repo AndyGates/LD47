@@ -35,5 +35,10 @@ public class RouteVisual : MonoBehaviour
     {
         _from = from;
         _to = to;
+
+        float dist = Vector2.Distance(from, to);
+        Vector2 dir = (to - from).normalized;
+        transform.position = from + (dir * dist * 0.5f);
+        transform.right = dir;
     }
 }
