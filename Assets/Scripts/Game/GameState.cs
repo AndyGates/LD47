@@ -19,7 +19,7 @@ public enum GameAction
     Build,
     Mine,
     Collect,
-    Upgrade,
+    Repair,
 }
 
 public class GameStateData

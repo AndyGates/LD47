@@ -10,6 +10,7 @@ public class ActionData
     public int Time;
     public int Fuel;
     public int Resources;
+    public int Health;
 
     public override string ToString()
     {

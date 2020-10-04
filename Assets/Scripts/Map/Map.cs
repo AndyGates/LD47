@@ -175,7 +175,7 @@ public class Map : MonoBehaviour
 
             for(int i = 0; i < buildings; i++)
             {
-                if(n.Resources >= -_rulesData.RefineryResourcesPerTick)
+                if(n.Resources >= -(_rulesData.RefineryResourcesPerTick * deltaTicks))
                 {
                     n.Resources += _rulesData.RefineryResourcesPerTick * deltaTicks;
                     n.Fuel += _rulesData.RefineryFuelPerTick * deltaTicks;

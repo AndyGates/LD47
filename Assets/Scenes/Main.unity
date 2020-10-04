@@ -255,26 +255,31 @@ MonoBehaviour:
     Time: 0
     Fuel: 0
     Resources: 0
+    Health: 0
   - ActionType: 2
     Text: BUILD REFINERY
     Time: 2
     Fuel: 0
     Resources: -25
+    Health: 0
   - ActionType: 3
     Text: MINE
     Time: 2
     Fuel: 0
     Resources: 10
+    Health: 0
   - ActionType: 4
     Text: COLLECT FUEL
     Time: 1
     Fuel: 10
     Resources: 0
+    Health: 0
   - ActionType: 5
-    Text: UPGRADE SHIP
+    Text: REPAIR SHIP
     Time: 1
     Fuel: 0
-    Resources: 20
+    Resources: -20
+    Health: 10
   _mapData: {fileID: 4900000, guid: ca66151671c83a447848517fac30f652, type: 3}
   _map: {fileID: 216480661}
   _player: {fileID: 1079041336}

@@ -162,8 +162,10 @@ public class Game : MonoBehaviour
         _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
     }
 
-    List<ActionData> GetAvailableActions(List<GameAction> nodeActions)
+    List<ActionData> GetAvailableActions(List<GameAction> nodeActions, Node node)
     {
+        nodeActions.Add(GameAction.Repair);
+
         //Can always leave
         List<ActionData> actions = new List<ActionData>();
 
@@ -176,20 +178,31 @@ public class Game : MonoBehaviour
                 //Only add the action if the player has time
                 if(GameData.OperationTime >= data.Time)
                 {
+                    bool shouldAdd = true;
+
                     switch(ga)
                     {
                         //Only add these actions if the player has the resources
                         case GameAction.Build:
-                        case GameAction.Upgrade:
-                            if(GameData.Resources >= -data.Resources)
-                            {
-                                actions.Add(data);
-                            }
+                            shouldAdd = GameData.Resources >= -data.Resources;
                             break;
 
-                        default:
-                            actions.Add(data);
+                        case GameAction.Collect:
+                            data.Fuel = Mathf.Min(data.Fuel, node.Fuel);
                             break;
+
+                        case GameAction.Repair:
+                            shouldAdd = GameData.Resources >= -data.Resources && GameData.Health < GameData.StartHealth;
+                            break;
+
+                        case GameAction.Mine:
+                            shouldAdd = node.Resources >= data.Resources;
+                            break;
+                    }
+                    
+                    if(shouldAdd)
+                    {
+                        actions.Add(data);
                     }
                 }
             }
@@ -214,7 +227,7 @@ public class Game : MonoBehaviour
         List<GameAction> nodeActions = _map.GetAvailableActions(_player.CurrentNodeId);
 
         //Combine these with the actions the player can currently do and get the action data 
-        List<ActionData> availableActions = GetAvailableActions(nodeActions);
+        List<ActionData> availableActions = GetAvailableActions(nodeActions, _player.CurrentNode);
 
         _actionSelectionScreen.Show(availableActions);
     }
@@ -264,6 +277,9 @@ public class Game : MonoBehaviour
                 case GameAction.Build:
                     DoBuildRefinery(data);
                     break;
+                case GameAction.Repair:
+                    DoRepair(data);
+                    break;
             }
         }
 
@@ -309,5 +325,11 @@ public class Game : MonoBehaviour
         {
             GameData.Resources += data.Resources;
         }
+    }
+
+    void DoRepair(ActionData data)
+    {
+        GameData.Resources += data.Resources;
+        GameData.Health = Mathf.Min(GameData.Health + data.Health, GameData.StartHealth);
     }
 }
