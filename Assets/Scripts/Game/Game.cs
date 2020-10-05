@@ -148,15 +148,17 @@ public class Game : MonoBehaviour
             else
             {
                 TravelCost cost = _player.CalculateTravelCost(node);
+                if(cost != null)
+                {
+                    _activeRoute = _player.TravelToNode(node, cost.Time);
+                    _activeTravelCost = cost;
+                    
+                    GameData.State = GameState.RunningAction;
 
-                _activeRoute = _player.TravelToNode(node, cost.Time);
-                _activeTravelCost = cost;
-                
-                GameData.State = GameState.RunningAction;
+                    _map.TickNodes(cost.Time);
 
-                _map.TickNodes(cost.Time);
-
-                Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+                    Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
+                }
             }
         }
     }
