@@ -11,7 +11,7 @@ nodes:
       x: -5
       y: 0
 
-  - name: Asteroid01
+  - name: "#Y45X"
     id: 1
     type: 2
     coords:
@@ -20,7 +20,7 @@ nodes:
     resources: 25
     fuel: 20
 
-  - name: BluePlanet01
+  - name: "#Q002"
     id: 2
     type: 0
     coords:
@@ -29,7 +29,7 @@ nodes:
     resources: 10
     building_spaces: 1
 
-  - name: RedPlanet01
+  - name: "#M98U"
     id: 3
     type: 1
     coords:
@@ -38,17 +38,17 @@ nodes:
     resources: 10
     building_spaces: 1
 
-  - name: Asteroid02
+  - name: "#00XZ"
     id: 4
     type: 3
     coords:
-      x: 2.99
-      y: -2.07
+      x: 2.87
+      y: -1.76
     fuel: 10
     resources: 10
     building_spaces: 1
 
-  - name: BluePlanet02
+  - name: "#ZQ99"
     id: 5
     type: 
     coords:
@@ -57,7 +57,7 @@ nodes:
     resources: 10
     building_spaces: 1
 
-  - name: Asteroid03
+  - name: "#UL19"
     id: 6
     type: 2
     coords:
@@ -66,17 +66,17 @@ nodes:
     resources: 25
     fuel: 20
 
-  - name: BluePlanet03
+  - name: "#7R2U"
     id: 7
     type: 0
     coords:
-      x: 9
-      y: -1.99
+      x: 9.43
+      y: -1.76
     resources: 0
     building_spaces: 1
     fuel: 20
 
-  - name: RedPlanet02
+  - name: "#L83Q"
     id: 8
     type: 1
     coords:
@@ -86,110 +86,188 @@ nodes:
     building_spaces: 1
     fuel: 20
 
-  - name: Goal
+  - name: "#Q94Z"
+    id: 9
+    type: 2
+    coords:
+      x: 13.13
+      y: 0.88
+    resources: 25
+    fuel: 20
+
+  - name: "#0LT3"
+    id: 10
+    type: 1
+    coords:
+      x: 15.34
+      y: -1.25
+    resources: 10
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#Z87Q"
+    id: 11
+    type: 2
+    coords:
+      x: 15.54
+      y: 1.08
+    resources: 25
+    fuel: 20
+
+  - name: "#0WQ1"
+    id: 12
+    type: 0
+    coords:
+      x: 17.78
+      y: 0.56
+    resources: 0
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#67DT"
+    id: 13
+    type: 2
+    coords:
+      x: 20
+      y: -1.67
+    resources: 10
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#ME45"
+    id: 14
+    type: 2
+    coords:
+      x: 21
+      y: 1.08
+    resources: 10
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#YQ94"
+    id: 15
+    type: 1
+    coords:
+      x: 24.56
+      y: 0.34
+    resources: 10
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#71QU"
+    id: 16
+    type: 0
+    coords:
+      x: 25
+      y: -1.78
+    resources: 0
+    building_spaces: 1
+    fuel: 20
+
+  - name: "#Z965Q" # Goal
     id: 100
     type: 100
     coords:
-      x: 15
+      x: 29
       y: 0
 
 routes:
-  # From Anomaly
-  # To Asteroid01
+  # From Proj Dark Star
+  # To #Y45X
   - from: 0
     to: 1
     travel_time: 1
     fuel_cost: 5
     health_cost: 3
-  # To BluePlanet01
+  # To #Q002
   - from: 0
     to: 2
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From Asteroid01 
-  # To BluePlanet01
+  # From #Y45X 
+  # To #Q002
   - from: 1
     to: 2
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # To RedPlanet01
+  # To #M98U
   - from: 1
     to: 3
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From BluePlanet01
-  # To RedPlanet01
+  # From #Q002
+  # To #M98U
   - from: 2
     to: 3
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # To Asteroid02
+  # To #00XZ
   - from: 2
     to: 4
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From RedPlanet01 
-  # To Asteroid02
+  # From #M98U 
+  # To #00XZ
   - from: 3
     to: 4
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From Asteroid02 
-  # To BluePlanet02
+  # From #00XZ 
+  # To #ZQ99
   - from: 4
     to: 5
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From BluePlanet02 
-  # To Asteroid03
+  # From #ZQ99 
+  # To #UL19
   - from: 5
     to: 6
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # To BluePlanet03
+  # To #7R2U
   - from: 5
     to: 7
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From Asteroid03 
-  # To BluePlanet03
+  # From #UL19 
+  # To #7R2U
   - from: 6
     to: 7
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
-  # To RedPlanet02
+  # To #L83Q
   - from: 6
     to: 8
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From BluePlanet03 
-  # To RedPlanet02
+  # From #7R2U 
+  # To #L83Q
   - from: 7
     to: 8
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
 
-  # From RedPlanet02 
-  # To Goal
+  # From #L83Q 
+  # To #Z965Q
   - from: 8
     to: 100
     travel_time: 1
