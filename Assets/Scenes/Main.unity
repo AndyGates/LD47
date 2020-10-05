@@ -260,13 +260,13 @@ MonoBehaviour:
     Resources: 0
     Health: 0
   - ActionType: 5
-    Text: REPAIR SHIP
+    Text: REPAIR  SHIP
     Time: 1
     Fuel: 0
     Resources: -20
     Health: 20
   - ActionType: 7
-    Text: ENTER WOMHOLE
+    Text: ENTER  WORMHOLE
     Time: 0
     Fuel: 0
     Resources: 0
@@ -1627,6 +1627,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 361109893}
+    - target: {fileID: 1054638760858652863, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.8745099
+      objectReference: {fileID: 0}
+    - target: {fileID: 1054638760858652863, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.4431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1054638760858652863, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.14901961
+      objectReference: {fileID: 0}
     - target: {fileID: 1054638761029947864, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
