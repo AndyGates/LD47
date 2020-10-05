@@ -39,6 +39,7 @@ public class GameStateData
     public int StartFuel{  get => 30; }
     public int StartResources { get => 0; }
     public int StartHealth { get => 13; }
+    public int MaxHealth { get => 100; }
 
     public bool HasOperationTimeLeft{ get => OperationTime > 0; }
     public bool HasFuelLeft{ get => Fuel > 0; }

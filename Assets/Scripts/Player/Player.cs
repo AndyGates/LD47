@@ -171,27 +171,5 @@ public class Player : MonoBehaviour
         }
 
         return null;
-
-        // See if we can travel to another node
-        /*List<Route> routes = _map.FindLinkedRoutes(CurrentNodeId);
-        if(routes.Count > 0)
-        {
-            foreach(Route route in routes)
-            {
-                TravelCost cost = CalculateTravelCost(CurrentNode);
-                if(false == gameData.CanAffordTravel(cost))
-                {
-                    return null; // We can travel to atleast 1 node
-                }
-            }
-        }
-        else
-        {
-            // How did we get here is there are not routes?
-            return GameOverReasons.NoRoutes;
-        }
-
-        // Generic reason
-        return GameOverReasons.Cost;*/
     }
 }

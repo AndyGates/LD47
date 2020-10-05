@@ -240,7 +240,7 @@ MonoBehaviour:
     Text: BUILD REFINERY
     Time: 2
     Fuel: 0
-    Resources: -25
+    Resources: -5
     Health: 0
   - ActionType: 3
     Text: MINE
@@ -259,7 +259,7 @@ MonoBehaviour:
     Time: 1
     Fuel: 0
     Resources: -20
-    Health: 10
+    Health: 20
   _mapData: {fileID: 4900000, guid: ca66151671c83a447848517fac30f652, type: 3}
   _map: {fileID: 216480661}
   _player: {fileID: 1079041336}

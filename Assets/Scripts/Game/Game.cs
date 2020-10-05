@@ -223,7 +223,7 @@ public class Game : MonoBehaviour
         {
             if(_actionMap.ContainsKey(ga))
             {
-                ActionData data = _actionMap[ga];
+                ActionData data = new ActionData(_actionMap[ga]);
 
                 //Only add the action if the player has time
                 if(GameData.OperationTime >= data.Time)
@@ -388,6 +388,6 @@ public class Game : MonoBehaviour
     void DoRepair(ActionData data)
     {
         GameData.Resources += data.Resources;
-        GameData.Health = Mathf.Min(GameData.Health + data.Health, GameData.StartHealth);
+        GameData.Health = Mathf.Min(GameData.Health + data.Health, GameData.MaxHealth);
     }
 }

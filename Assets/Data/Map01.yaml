@@ -1,6 +1,7 @@
 ---
+
 rules:
-  refinery_resources_per_tick: -1
+  refinery_resources_per_tick: 0 # refineries dont use resources 
   refinery_fuel_per_tick: 1
   
 nodes:
@@ -17,7 +18,7 @@ nodes:
     coords:
       x: -3
       y: 1.03
-    resources: 25
+    resources: 60
     fuel: 20
 
   - name: "#Q002"
@@ -26,7 +27,7 @@ nodes:
     coords:
       x: -0.99
       y: -1.99
-    resources: 10
+    resources: 30
     building_spaces: 1
 
   - name: "#M98U"
@@ -35,7 +36,7 @@ nodes:
     coords:
       x: 1.55
       y: 1.25
-    resources: 10
+    resources: 40
     building_spaces: 1
 
   - name: "#00XZ"
@@ -45,7 +46,7 @@ nodes:
       x: 2.87
       y: -1.76
     fuel: 10
-    resources: 10
+    resources: 20
     building_spaces: 1
 
   - name: "#ZQ99"
@@ -54,7 +55,7 @@ nodes:
     coords:
       x: 5
       y: 0
-    resources: 10
+    resources: 30
     building_spaces: 1
 
   - name: "#UL19"
@@ -63,7 +64,7 @@ nodes:
     coords:
       x: 7
       y: 1.03
-    resources: 25
+    resources: 40
     fuel: 20
 
   - name: "#7R2U"
@@ -140,7 +141,7 @@ nodes:
     coords:
       x: 21
       y: 1.08
-    resources: 10
+    resources: 60
     building_spaces: 1
     fuel: 20
 
