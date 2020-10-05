@@ -21,6 +21,7 @@ public enum GameAction
     Collect,
     Repair,
     ViewRoutes,
+    EnterWormhole,
 }
 
 public class GameStateData

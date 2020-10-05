@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    Animator _anim;
+
+    [SerializeField]
     Map _map = null;
 
     [SerializeField]
@@ -99,6 +102,7 @@ public class Player : MonoBehaviour
         );
 
         CurrentNode = node;
+        _anim.SetBool("EnginesOn", true);
                 
         return route;
     }
@@ -119,11 +123,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Respawn()
+    {
+        _anim.SetTrigger("Respawn");
+    }
+
     public void StartAnomaly()
     {
         CurrentNode = _map.FindNode(_homeNodeId);
+        
+        _anim.SetTrigger("Anomaly");
 
         iTween.MoveTo(gameObject, iTween.Hash(
+            "delay", 0.5f,
             "position", (Vector3)CurrentNode.Coords, 
             "speed", _retractHomeTravelSpeed, 
             "oncomplete", nameof(OnAnomalyComplete),
@@ -133,11 +145,14 @@ public class Player : MonoBehaviour
 
     public void OnTravelComplete()
     {
+        _anim.SetBool("EnginesOn", false);
+        transform.localRotation = Quaternion.identity;
         TravelComplete.Invoke();
     }
 
     public void OnAnomalyComplete()
     {
+        _anim.SetTrigger("Respawn");
         RetractHomeComplete.Invoke();
     }
 

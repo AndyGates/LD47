@@ -35,7 +35,7 @@ public class MapAssets : ScriptableObject
         {
             if(asset.Type == typeId)
             {
-                return asset.Prefab;
+                return asset.ZoomedPrefab;
             }
         }
 

@@ -166,13 +166,7 @@ public class Game : MonoBehaviour
         if(_map.GetNodeType(_player.CurrentNodeId) == _goalNodeType)
         {
             // Make sure we could afford the travel before winning
-            if(GameData.CanAffordTravel(_activeTravelCost))
-            {
-                Debug.Log("Well done you escaped the loop");
-                GameData.State = GameState.Complete;
-                Win();
-            }
-            else
+            if(!GameData.CanAffordTravel(_activeTravelCost))
             {
                 if(false == GameData.HasEnoughHealth(_activeTravelCost.Health))
                 {
@@ -190,26 +184,24 @@ public class Game : MonoBehaviour
                 }
             }
         }
+
+        if(GameData.HasEnoughTime(_activeTravelCost.Time))
+        {
+            GameData.ApplyTravelCost(_activeTravelCost);
+            _activeTravelCost = null;
+            _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
+
+            _activeRoute.State = RouteState.Traveled;
+            _player.OnDiscoverNode(_player.CurrentNode);
+        }
         else
         {
-            if(GameData.HasEnoughTime(_activeTravelCost.Time))
-            {
-                GameData.ApplyTravelCost(_activeTravelCost);
-                _activeTravelCost = null;
-                _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
-
-                _activeRoute.State = RouteState.Traveled;
-                _player.OnDiscoverNode(_player.CurrentNode);
-            }
-            else
-            {
-                GameData.OperationTime = 0;
-            }
-
-            _activeRoute = null;
-
-            OnActionCompleted(GameAction.Travel);
+            GameData.OperationTime = 0;
         }
+
+        _activeRoute = null;
+
+        OnActionCompleted(GameAction.Travel);
     }
 
     List<ActionData> GetAvailableActions(List<GameAction> nodeActions, Node node)
@@ -263,6 +255,13 @@ public class Game : MonoBehaviour
         }
 
         actions.Add(_actionMap[GameAction.ViewRoutes]);
+
+        if(_player.CurrentNode.Type == _goalNodeType)
+        {
+            actions.Clear();
+            actions.Add(_actionMap[GameAction.EnterWormhole]);
+        }
+
         return actions;
     }
 
@@ -329,6 +328,9 @@ public class Game : MonoBehaviour
                 case GameAction.Repair:
                     DoRepair(data);
                     break;
+                case GameAction.EnterWormhole:
+                    DoWormhole();
+                    break;
             }
 
             OnActionCompleted(data.ActionType);
@@ -345,22 +347,25 @@ public class Game : MonoBehaviour
     {
         Debug.Log($"Action {action} completed");
 
-        // Action completed now allow user to select node, retract to home or game over if they cannot travel
-        string gameOverReason = _player.CanContinue(GameData);
-        if(false == string.IsNullOrEmpty(gameOverReason))
+        if(GameData.State != GameState.Complete)
         {
-            GameOver(gameOverReason);
-        }
-        else if(false == GameData.HasOperationTimeLeft)
-        {
-            Debug.Log("Ran out of travel time. Anomaly starting...");
-            ShowRouteSelectionScreen();
-            StartAnomaly();
-        }
-        else
-        {
-            GameData.State = GameState.ChoosingAction;
-            ShowActionSelectionScreen();
+            // Action completed now allow user to select node, retract to home or game over if they cannot travel
+            string gameOverReason = _player.CanContinue(GameData);
+            if(false == string.IsNullOrEmpty(gameOverReason))
+            {
+                GameOver(gameOverReason);
+            }
+            else if(false == GameData.HasOperationTimeLeft)
+            {
+                Debug.Log("Ran out of travel time. Anomaly starting...");
+                ShowRouteSelectionScreen();
+                StartAnomaly();
+            }
+            else
+            {
+                GameData.State = GameState.ChoosingAction;
+                ShowActionSelectionScreen();
+            }
         }
     }
 
@@ -388,5 +393,12 @@ public class Game : MonoBehaviour
     {
         GameData.Resources += data.Resources;
         GameData.Health = Mathf.Min(GameData.Health + data.Health, GameData.MaxHealth);
+    }
+
+    void DoWormhole()
+    {
+        Debug.Log("Well done you escaped the loop");
+        GameData.State = GameState.Complete;
+        Win();
     }
 }

@@ -26,8 +26,8 @@ MonoBehaviour:
     Prefab: {fileID: 1785829404068862772, guid: 554b5087cc3009142adafdb090457831, type: 3}
     ZoomedPrefab: {fileID: 1785829404068862772, guid: 554b5087cc3009142adafdb090457831, type: 3}
   - Type: 100
-    Prefab: {fileID: 716504132572950754, guid: cdb4d83bcb46e16489b227dc8bad6907, type: 3}
-    ZoomedPrefab: {fileID: 716504132572950754, guid: cdb4d83bcb46e16489b227dc8bad6907, type: 3}
+    Prefab: {fileID: 1081796624723703024, guid: 73e924fb32ff32f418a4b084e34444de, type: 3}
+    ZoomedPrefab: {fileID: 1081796624723703024, guid: 73e924fb32ff32f418a4b084e34444de, type: 3}
   - Type: 200
     Prefab: {fileID: 5679216226594212102, guid: 6755ccff69bf12e45934922f0b832308, type: 3}
-    ZoomedPrefab: {fileID: 5679216226594212102, guid: 6755ccff69bf12e45934922f0b832308, type: 3}
+    ZoomedPrefab: {fileID: 3554091315370379776, guid: 1be8514ebaa81184ea54dfa2963ed158, type: 3}

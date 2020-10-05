@@ -260,6 +260,12 @@ MonoBehaviour:
     Fuel: 0
     Resources: -20
     Health: 20
+  - ActionType: 7
+    Text: ENTER WOMHOLE
+    Time: 0
+    Fuel: 0
+    Resources: 0
+    Health: 0
   _mapData: {fileID: 4900000, guid: ca66151671c83a447848517fac30f652, type: 3}
   _map: {fileID: 216480661}
   _player: {fileID: 1079041336}
@@ -1396,6 +1402,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 361109893}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0.7960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.8588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 0.98823535
+      objectReference: {fileID: 0}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.8745099
+      objectReference: {fileID: 0}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.4431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 33589951099461641, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.14901961
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27e61b8aa46cfae429b6ae74db57d267, type: 3}
 --- !u!1001 &2226085226180242712
@@ -1521,6 +1551,22 @@ PrefabInstance:
     - target: {fileID: 2845190738542569389, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
       propertyPath: m_Name
       value: RouteSelectionScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513668746536472085, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8820715720815460284, guid: 4a3e01a3dbdb5be40bec9c64844bddbc, type: 3}
+    - target: {fileID: 8513668746536472085, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
+      propertyPath: m_Size.x
+      value: 1.53125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513668746536472085, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
+      propertyPath: m_Size.y
+      value: 1.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513668746536472085, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 229005617df5e124e8cbe4756d6f9ea3, type: 3}
