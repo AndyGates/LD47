@@ -304,19 +304,18 @@ public class Game : MonoBehaviour
         Debug.Log("Anomaly completed");
     }
 
-    void ApplyAction(GameAction action)
+    void ApplyAction(ActionData data)
     {
-        if(_actionMap.ContainsKey(action) && action != GameAction.ViewRoutes)
+        if(_actionMap.ContainsKey(data.ActionType) && data.ActionType != GameAction.ViewRoutes)
         {
-            ActionData data = _actionMap[action];
-            GameData.Action = action;
+            GameData.Action = data.ActionType;
             // TODO Do action stuff
             Debug.Log($"Doing action {data.ToString()}");
 
             GameData.OperationTime -= data.Time;
             _map.TickNodes(data.Time);
 
-            switch(action)
+            switch(data.ActionType)
             {
                 case GameAction.Mine:
                     DoMineAction(data);
@@ -332,9 +331,9 @@ public class Game : MonoBehaviour
                     break;
             }
 
-            OnActionCompleted(action);
+            OnActionCompleted(data.ActionType);
         }
-        else if(action == GameAction.ViewRoutes)
+        else if(data.ActionType == GameAction.ViewRoutes)
         {
             ShowRouteSelectionScreen();
 

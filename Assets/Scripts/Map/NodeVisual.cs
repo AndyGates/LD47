@@ -17,10 +17,23 @@ public class NodeVisual : MonoBehaviour
 
     Node _node;
 
+    List<GameObject> _buildings = new List<GameObject>();
+
     public void SetNode(Node node)
     {
         _node = node;
         node.BuildingAdded += OnBuildingAdded;
+    }
+
+    public void ResetAll()
+    {
+        foreach(GameObject go in _buildings)
+        {
+            Destroy(go);
+        }
+        _buildings.Clear();
+
+        CanOutline = false;
     }
 
     void Awake()
@@ -60,6 +73,8 @@ public class NodeVisual : MonoBehaviour
             Transform t = _buildingSlots[0];
             GameObject go = Instantiate(_buildingPrefab, Vector3.zero, Quaternion.identity, t);
             go.transform.localPosition = Vector3.zero;
+
+            _buildings.Add(go);
         }
         else
         {

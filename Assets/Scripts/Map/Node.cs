@@ -53,7 +53,7 @@ public class Node
 
         if(Visual != null)
         {
-            Visual.CanOutline = false;
+            Visual.ResetAll();
         }
     }
 
