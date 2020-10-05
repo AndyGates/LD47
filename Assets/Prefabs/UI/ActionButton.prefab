@@ -689,7 +689,7 @@ MonoBehaviour:
   _timeText: {fileID: 8390326272979271479}
   _nameText: {fileID: 8390326273249249074}
   _hoverClip: {fileID: 8300000, guid: 06dbee4dd85ec4d46bc55740963d5a30, type: 3}
-  _selectClip: {fileID: 8300000, guid: 364c9f8753fc36442a1c9b8a8c2e581f, type: 3}
+  _selectClip: {fileID: 8300000, guid: 6489c2a78d758f741b50d07773de1750, type: 3}
 --- !u!114 &1064720771666594086
 MonoBehaviour:
   m_ObjectHideFlags: 0
