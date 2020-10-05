@@ -221,6 +221,18 @@ routes:
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # To #ZQ99
+  - from: 3
+    to: 5
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #UL19
+  - from: 3
+    to: 6
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
 
   # From #00XZ 
   # To #ZQ99
@@ -265,10 +277,136 @@ routes:
     travel_time: 1
     fuel_cost: 10
     health_cost: 3
+  # To #Q94Z
+  - from: 7
+    to: 9
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #0LT3
+  - from: 7
+    to: 10
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
 
-  # From #L83Q 
-  # To #Z965Q
+  # From #L83Q
+  # To #Q94Z
   - from: 8
+    to: 9
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #Q94Z
+  # To #0LT3
+  - from: 9
+    to: 10
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #Z87Q
+  - from: 9
+    to: 11
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #Q94Z
+  # To #Z87Q
+  - from: 10
+    to: 11
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #0WQ1
+  - from: 10
+    to: 12
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #Z87Q
+  # To #Z87Q
+  - from: 11
+    to: 12
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #Z87Q
+  # To #67DT
+  - from: 12
+    to: 13
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #ME45
+  - from: 12
+    to: 14
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #67DT
+  # To #ME45
+  - from: 13
+    to: 14
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #71QU
+  - from: 13
+    to: 16
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #ME45
+  # To #YQ94
+  - from: 14
+    to: 15
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #71QU
+  - from: 14
+    to: 16
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #ME45
+  # To #71QU
+  - from: 15
+    to: 16
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #Z965Q
+  - from: 15
+    to: 100
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #ME45
+  # To #71QU
+  - from: 15
+    to: 16
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+  # To #Z965Q
+  - from: 15
+    to: 100
+    travel_time: 1
+    fuel_cost: 10
+    health_cost: 3
+
+  # From #71QU
+  # To Z965Q
+  - from: 16
     to: 100
     travel_time: 1
     fuel_cost: 10
