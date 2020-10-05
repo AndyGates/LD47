@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     public int CurrentNodeId { get => CurrentNode.Id; }
     int _homeNodeId = 0;
 
-    Route _activeRoute = null;
-
     iTween.EaseType _easeMethod = iTween.EaseType.linear;
 
     public void SetAtNodeId(int nodeId)
@@ -75,11 +73,9 @@ public class Player : MonoBehaviour
         return cost;
     }
 
-    public TravelCost TravelToNode(Node node)
+    public Route TravelToNode(Node node, float travelTime)
     {
         Route route = _map.FindRoute(CurrentNodeId, node.Id);
-
-        int travelTime = CalculateTravelTime(route);
 
         Vector3 to = _map.GetNodeCoords(node.Id);
 
@@ -93,17 +89,11 @@ public class Player : MonoBehaviour
         );
 
         CurrentNode = node;
-        _activeRoute = route;
                 
-        return new TravelCost()
-        {
-            Time = travelTime,
-            Fuel = route.FuelCost,
-            Health = route.HealthCost
-        };
+        return route;
     }
 
-    void OnDiscoverNode(Node node)
+    public void OnDiscoverNode(Node node)
     {
         node.State = NodeState.Discovered;
         node.Visual.CanOutline = true;
@@ -134,11 +124,6 @@ public class Player : MonoBehaviour
     public void OnTravelComplete()
     {
         TravelComplete.Invoke();
-
-        OnDiscoverNode(CurrentNode);
-
-        _activeRoute.State = RouteState.Traveled;
-        _activeRoute = null;
     }
 
     public void OnAnomalyComplete()
