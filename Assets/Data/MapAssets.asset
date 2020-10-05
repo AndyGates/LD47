@@ -15,10 +15,10 @@ MonoBehaviour:
   _nodeAssets:
   - Type: 0
     Prefab: {fileID: 8781554863754062921, guid: 19edf6588c2c53247ad3b90d1b05b965, type: 3}
-    ZoomedPrefab: {fileID: 8781554863754062921, guid: 19edf6588c2c53247ad3b90d1b05b965, type: 3}
+    ZoomedPrefab: {fileID: 5706531243932357869, guid: aa44daaab83b34545bff2f7e05f9175c, type: 3}
   - Type: 1
     Prefab: {fileID: 6876317147119320566, guid: 8be0ef481c4f7d8449fe6a719bc0a61a, type: 3}
-    ZoomedPrefab: {fileID: 6876317147119320566, guid: 8be0ef481c4f7d8449fe6a719bc0a61a, type: 3}
+    ZoomedPrefab: {fileID: 7959210180064390487, guid: 683986584f6f8824ab242ffa52a29fb8, type: 3}
   - Type: 2
     Prefab: {fileID: 5460630184686068255, guid: b2245108e42bfd64c891c2b502d131eb, type: 3}
     ZoomedPrefab: {fileID: 5460630184686068255, guid: b2245108e42bfd64c891c2b502d131eb, type: 3}
