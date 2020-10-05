@@ -8,6 +8,8 @@ public class NodeInteraction : MonoBehaviour
     public event System.Action<Node> NodeSelected;
     public event System.Action<Node, bool> NodeHover;
 
+    bool _active = false;
+
     void OnMouseUpAsButton()
     {
         NodeSelected?.Invoke(Node);
@@ -16,10 +18,20 @@ public class NodeInteraction : MonoBehaviour
     void OnMouseOver()
     {
         NodeHover?.Invoke(Node, false);
+        _active = true;
     }
 
     void OnMouseExit()
     {
         NodeHover?.Invoke(Node, true);
+        _active = false;
+    }
+
+    void OnEnable()
+    {
+        if(_active)
+        {
+            OnMouseExit();
+        }
     }
 }

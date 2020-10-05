@@ -35,6 +35,11 @@ public class NodeVisual : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        _outline.SetActive(false);
+    }
+
     void OnMouseOver()
     {
         if(CanOutline)

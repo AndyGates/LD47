@@ -46,7 +46,7 @@ public class GameStateData
     public bool HasHealthLeft{ get => Health > 0; }
 
     public bool HasHealthDebt{ get => Health < 0; }
-    public bool HasFuelDebt{ get => Health < 0; }
+    public bool HasFuelDebt{ get => Fuel < 0; }
 
     public bool CanRepair{ get => Resources >= RepairCost; }
 

@@ -42,6 +42,7 @@ public class Game : MonoBehaviour
 
     int _startNodeId = 0;
     TravelCost _activeTravelCost = null;
+    Route _activeRoute = null;
 
     GameStateData GameData { get; set; } = new GameStateData();
         
@@ -128,25 +129,16 @@ public class Game : MonoBehaviour
             }
             else
             {
-                //bool canTravel = _player.CanTravelToNode(node);
                 TravelCost cost = _player.CalculateTravelCost(node);
-                //bool canAffordTravel = GameData.CanAffordTravel(cost);
-                //if(canTravel && canAffordTravel)
-                //{
-                    _player.TravelToNode(node);
 
-                    _activeTravelCost = cost;
-                    
-                    GameData.State = GameState.RunningAction;
+                _activeRoute = _player.TravelToNode(node, cost.Time);
+                _activeTravelCost = cost;
+                
+                GameData.State = GameState.RunningAction;
 
-                    _map.TickNodes(cost.Time);
+                _map.TickNodes(cost.Time);
 
-                    Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
-                /*}
-                else
-                {
-                    Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
-                }*/
+                Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
             }
         }
     }
@@ -156,8 +148,15 @@ public class Game : MonoBehaviour
         _nodeOverviewUI.gameObject.SetActive(!exited);
         _nodeOverviewUI.SetNode(node);
 
-        TravelCost cost = _player.CalculateTravelCost(node);
-        _nodeOverviewUI.SetTravelCost(cost);
+        if(_activeRoute == null)
+        {
+            TravelCost cost = _player.CalculateTravelCost(node);
+            _nodeOverviewUI.SetTravelCost(cost);
+        }
+        else
+        {
+            _nodeOverviewUI.SetTravelCost(null);
+        }
     }
 
     void OnPlayerTravelComplete()
@@ -193,13 +192,24 @@ public class Game : MonoBehaviour
         }
         else
         {
-            GameData.ApplyTravelCost(_activeTravelCost);
-            _activeTravelCost = null;
+            if(GameData.HasEnoughTime(_activeTravelCost.Time))
+            {
+                GameData.ApplyTravelCost(_activeTravelCost);
+                _activeTravelCost = null;
+                _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
+
+                _activeRoute.State = RouteState.Traveled;
+                _player.OnDiscoverNode(_player.CurrentNode);
+            }
+            else
+            {
+                GameData.OperationTime = 0;
+            }
+
+            _activeRoute = null;
 
             OnActionCompleted(GameAction.Travel);
         }
-
-        _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
     }
 
     List<ActionData> GetAvailableActions(List<GameAction> nodeActions, Node node)
