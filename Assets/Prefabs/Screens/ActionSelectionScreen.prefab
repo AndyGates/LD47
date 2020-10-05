@@ -346,7 +346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2226085227865002759
 Transform:
   m_ObjectHideFlags: 0
@@ -389,6 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2226085228108270249}
   - component: {fileID: 2226085228108270248}
+  - component: {fileID: 3125888999174217141}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -450,17 +451,36 @@ SpriteRenderer:
   m_SortingLayerID: 1987317075
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4a3e01a3dbdb5be40bec9c64844bddbc, type: 3}
+  m_Sprite: {fileID: -8820715720815460284, guid: 4a3e01a3dbdb5be40bec9c64844bddbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.15625, y: 0.75}
+  m_Size: {x: 1.53125, y: 1.125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3125888999174217141
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226085228108270263}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f639a4f268477ea4ea6ec23fd1ff26b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4293273026639232184
 GameObject:
   m_ObjectHideFlags: 0
