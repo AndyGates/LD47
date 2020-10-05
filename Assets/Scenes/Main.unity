@@ -1583,6 +1583,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinnersScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 1054638761029947865, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1054638761985959647, guid: 57f3b3402ab68844f9f0ea0c320acbc1, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1613,6 +1617,10 @@ PrefabInstance:
     - target: {fileID: 6061033703163106144, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
       propertyPath: m_Name
       value: GameOverScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061033703163106144, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6061033703163106145, guid: 6742f4dca6caacc42a4227a58245949f, type: 3}
       propertyPath: m_LocalPosition.x

@@ -42,9 +42,19 @@ public class Player : MonoBehaviour
 
     public int CalculateTravelTime(Route route)
     {
+        return route.TravelTime * CalculateTravelFactor(route);
+    }
+
+    public int CalculateDamageCost(Route route)
+    {
+        return route.HealthCost * CalculateTravelFactor(route);
+    }
+
+    public int CalculateTravelFactor(Route route)
+    {
         if(route == null)
         {
-            return -1;
+            return 1;
         }
 
         int travelFactor = _traveledTravelFactor;
@@ -53,7 +63,7 @@ public class Player : MonoBehaviour
             travelFactor = _untraveledTravelFactor;
         }
 
-        return route.TravelTime * travelFactor;
+        return travelFactor;
     }
 
     public TravelCost CalculateTravelCost(Node node)
@@ -67,7 +77,7 @@ public class Player : MonoBehaviour
             {
                 Time = CalculateTravelTime(route),
                 Fuel = route.FuelCost,
-                Health = route.HealthCost
+                Health = CalculateDamageCost(route)
             };
         }
         return cost;
