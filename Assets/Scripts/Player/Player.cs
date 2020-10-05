@@ -19,6 +19,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     float _retractHomeTravelSpeed = 2.0f;
 
+    [SerializeField]
+    AudioClip _anomalySound;
+
+    [SerializeField]
+    AudioClip _respawnSound;
+
+    AudioSource _engineAudio;
+    AudioSource _oneShotAudio;
+
     public event System.Action TravelComplete;
     public event System.Action RetractHomeComplete;
 
@@ -27,6 +36,13 @@ public class Player : MonoBehaviour
     int _homeNodeId = 0;
 
     iTween.EaseType _easeMethod = iTween.EaseType.linear;
+
+    void Awake()
+    {
+        //Sorry
+        _engineAudio = GameObject.FindGameObjectWithTag("EngineAudio").GetComponent<AudioSource>();
+        _oneShotAudio = GameObject.FindGameObjectWithTag("OneShotAudio").GetComponent<AudioSource>();
+    }
 
     public void SetAtNodeId(int nodeId)
     {
@@ -103,6 +119,7 @@ public class Player : MonoBehaviour
 
         CurrentNode = node;
         _anim.SetBool("EnginesOn", true);
+        iTween.AudioTo(_engineAudio.gameObject, 1, 1, 0.5f);
                 
         return route;
     }
@@ -125,6 +142,11 @@ public class Player : MonoBehaviour
 
     public void Respawn()
     {
+        if(_oneShotAudio != null && _respawnSound != null)
+        {
+            _oneShotAudio.PlayOneShot(_respawnSound);
+        }
+
         _anim.SetTrigger("Respawn");
     }
 
@@ -132,6 +154,11 @@ public class Player : MonoBehaviour
     {
         CurrentNode = _map.FindNode(_homeNodeId);
         
+        if(_oneShotAudio != null && _anomalySound != null)
+        {
+            _oneShotAudio.PlayOneShot(_anomalySound);
+        }
+
         _anim.SetTrigger("Anomaly");
 
         iTween.MoveTo(gameObject, iTween.Hash(
@@ -146,13 +173,15 @@ public class Player : MonoBehaviour
     public void OnTravelComplete()
     {
         _anim.SetBool("EnginesOn", false);
+        iTween.AudioTo(_engineAudio.gameObject, 0, 1, 0.5f);
+
         transform.localRotation = Quaternion.identity;
         TravelComplete.Invoke();
     }
 
     public void OnAnomalyComplete()
     {
-        _anim.SetTrigger("Respawn");
+        Respawn();
         RetractHomeComplete.Invoke();
     }
 

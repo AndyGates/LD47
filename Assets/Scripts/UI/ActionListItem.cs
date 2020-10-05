@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ActionListItem : MonoBehaviour
+public class ActionListItem : MonoBehaviour, IPointerEnterHandler
 {
     public event System.Action Selected;
 
@@ -25,6 +26,19 @@ public class ActionListItem : MonoBehaviour
     [SerializeField]
     Text _nameText = null;
 
+    [SerializeField]
+    AudioClip _hoverClip;
+
+    [SerializeField]
+    AudioClip _selectClip;
+
+    AudioSource _audioSource;
+
+    void Awake()
+    {
+        _audioSource = GameObject.FindGameObjectWithTag("OneShotAudio").GetComponent<AudioSource>();
+    }
+
     public void SetData(string name, int time, int fuel, int resources)
     {       
         _fuelIcon.enabled = fuel != 0;
@@ -41,6 +55,19 @@ public class ActionListItem : MonoBehaviour
 
     public void OnClicked()
     {
+        if(_selectClip != null)
+        {
+            _audioSource.PlayOneShot(_selectClip);
+        }
+
         Selected?.Invoke();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(_hoverClip != null)
+        {
+            _audioSource.PlayOneShot(_hoverClip);
+        }
     }
 }

@@ -15,6 +15,9 @@ public class NodeVisual : MonoBehaviour
     [SerializeField]
     List<Transform> _buildingSlots = new List<Transform>();
 
+    [SerializeField]
+    AudioClip _hoverSound;
+
     Node _node;
 
     List<GameObject> _buildings = new List<GameObject>();

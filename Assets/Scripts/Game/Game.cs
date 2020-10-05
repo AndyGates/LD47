@@ -40,6 +40,15 @@ public class Game : MonoBehaviour
     [SerializeField]
     GameObject _winnersScreen = null;
 
+    [SerializeField]
+    AudioSource _oneShotSource;
+
+    [SerializeField]
+    AudioClip _nodeHoverClip;
+
+    [SerializeField]
+    AudioClip _nodeSelectClip;
+
     int _startNodeId = 0;
     TravelCost _activeTravelCost = null;
     Route _activeRoute = null;
@@ -47,6 +56,8 @@ public class Game : MonoBehaviour
     GameStateData GameData { get; set; } = new GameStateData();
         
     Dictionary<GameAction, ActionData> _actionMap; 
+
+    bool _playHoverSound = true;
 
     void Awake()
     {
@@ -86,6 +97,8 @@ public class Game : MonoBehaviour
         _map.ResetAll();
         _player.SetAtNodeId(_startNodeId);
         _map.MarkNodeRoutesAsDiscovered(_startNodeId);
+
+        _player.Respawn();
     }
 
     public void RestartGame()
@@ -121,6 +134,11 @@ public class Game : MonoBehaviour
     {
         if(GameData.State == GameState.ConfiguringAction && GameData.Action == GameAction.Travel)
         {
+            if(_nodeSelectClip != null)
+            {
+                _oneShotSource.PlayOneShot(_nodeSelectClip);
+            }
+
             // Dont travel to a node we are already on just open the action screen
             if(node.Id == _player.CurrentNodeId)
             {
@@ -145,6 +163,17 @@ public class Game : MonoBehaviour
 
     void OnNodeHover(Node node, bool exited)
     {
+        if(_nodeHoverClip != null && _playHoverSound)
+        {
+            _oneShotSource.PlayOneShot(_nodeHoverClip);
+            _playHoverSound = false;
+        }
+
+        if(exited)
+        {
+            _playHoverSound = true;
+        }
+
         _nodeOverviewUI.gameObject.SetActive(!exited);
         _nodeOverviewUI.SetNode(node);
 
