@@ -20,6 +20,7 @@ public enum GameAction
     Mine,
     Collect,
     Repair,
+    ViewRoutes,
 }
 
 public class GameStateData
@@ -32,15 +33,22 @@ public class GameStateData
     public int Resources { get; set; } // The amount of resources left
     public int Health { get; set; } // The amount of health left
 
-    public int MaxOperationTime { get => 24; }
+    public int RepairCost{ get; set; }
+
+    public int MaxOperationTime { get => 10; }
     public int StartFuel{  get => 30; }
     public int StartResources { get => 0; }
-    public int StartHealth { get => 100; }
+    public int StartHealth { get => 10; }
 
     public bool HasOperationTimeLeft{ get => OperationTime > 0; }
     public bool HasFuelLeft{ get => Fuel > 0; }
     public bool HasResourcesLeft{ get => Resources > 0; }
     public bool HasHealthLeft{ get => Health > 0; }
+
+    public bool HasHealthDebt{ get => Health < 0; }
+    public bool HasFuelDebt{ get => Health < 0; }
+
+    public bool CanRepair{ get => Resources >= RepairCost; }
 
     public void ResetAll()
     {
@@ -60,6 +68,8 @@ public class GameStateData
         OperationTime -= cost.Time;
         Fuel -= cost.Fuel;
         Health -= cost.Health;
+
+        Debug.Log($"After travel costs we have: Time={OperationTime}, Fuel={Fuel}, Health={Health}");
     }
 
     public bool CanAffordTravel(TravelCost cost)

@@ -35,12 +35,13 @@ public class Game : MonoBehaviour
     GameObject _startScreen = null;
 
     [SerializeField]
-    GameObject _gameOverScreen = null;
+    GameOverScreen _gameOverScreen = null;
 
     [SerializeField]
     GameObject _winnersScreen = null;
 
     int _startNodeId = 0;
+    TravelCost _activeTravelCost = null;
 
     GameStateData GameData { get; set; } = new GameStateData();
         
@@ -49,6 +50,7 @@ public class Game : MonoBehaviour
     void Awake()
     {
         _actionMap = _actionDefinitions.ToDictionary(x => x.ActionType, x => x);
+        GameData.RepairCost = -_actionMap[GameAction.Repair].Resources; // Will be negative if it is a cost
 
         _map.LoadMap(_mapData);
         _map.NodeSelected += OnNodeSelected;
@@ -77,7 +79,7 @@ public class Game : MonoBehaviour
         _routeSelectionScreen.gameObject.SetActive(true);
         _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
-        _gameOverScreen.SetActive(false);
+        _gameOverScreen.gameObject.SetActive(false);
         _winnersScreen.SetActive(false);
 
         _map.ResetAll();
@@ -90,14 +92,18 @@ public class Game : MonoBehaviour
         StartGame();
     }
 
-    public void GameOver()
+    public void GameOver(string reason)
     {
+        Debug.Log($"GameOver: {reason}");
+
         _playerHUD.gameObject.SetActive(false);
         _routeSelectionScreen.gameObject.SetActive(false);
         _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
-        _gameOverScreen.SetActive(true);
+        _gameOverScreen.gameObject.SetActive(true);
         _winnersScreen.SetActive(false);
+
+        _gameOverScreen.SetReason(reason);
     }
 
     public void Win()
@@ -106,7 +112,7 @@ public class Game : MonoBehaviour
         _routeSelectionScreen.gameObject.SetActive(false);
         _actionSelectionScreen.gameObject.SetActive(false);
         _startScreen.SetActive(false);
-        _gameOverScreen.SetActive(false);
+        _gameOverScreen.gameObject.SetActive(false);
         _winnersScreen.SetActive(true);
     }
 
@@ -122,24 +128,25 @@ public class Game : MonoBehaviour
             }
             else
             {
-                bool canTravel = _player.CanTravelToNode(node);
+                //bool canTravel = _player.CanTravelToNode(node);
                 TravelCost cost = _player.CalculateTravelCost(node);
-                bool canAffordTravel = GameData.CanAffordTravel(cost);
-                if(canTravel && canAffordTravel)
-                {
+                //bool canAffordTravel = GameData.CanAffordTravel(cost);
+                //if(canTravel && canAffordTravel)
+                //{
                     _player.TravelToNode(node);
-                    GameData.ApplyTravelCost(cost);
 
+                    _activeTravelCost = cost;
+                    
                     GameData.State = GameState.RunningAction;
 
                     _map.TickNodes(cost.Time);
 
                     Debug.Log($"Traveling to {node.Name} with cost {cost.ToString()}");
-                }
+                /*}
                 else
                 {
                     Debug.Log($"Not traveling to {node.Name} CanTravel={canTravel}, CanAffordTravel={canAffordTravel}");
-                }
+                }*/
             }
         }
     }
@@ -159,15 +166,37 @@ public class Game : MonoBehaviour
 
         if(_map.GetNodeType(_player.CurrentNodeId) == _goalNodeType)
         {
-            Debug.Log("Well done you escaped the loop");
-            GameData.State = GameState.Complete;
-
-            Win();
+            // Make sure we could afford the travel before winning
+            if(GameData.CanAffordTravel(_activeTravelCost))
+            {
+                Debug.Log("Well done you escaped the loop");
+                GameData.State = GameState.Complete;
+                Win();
+            }
+            else
+            {
+                if(false == GameData.HasEnoughHealth(_activeTravelCost.Health))
+                {
+                    GameOver(GameOverReasons.NoHealth);
+                }
+                else if(false == GameData.HasEnoughFuel(_activeTravelCost.Fuel))
+                {
+                    GameOver(GameOverReasons.NoFuel);
+                }
+                if(false == GameData.HasEnoughTime(_activeTravelCost.Time))
+                {
+                    Debug.Log("So close but the anomaly got you. Anomaly starting...");
+                    ShowRouteSelectionScreen();
+                    StartAnomaly();
+                }
+            }
         }
         else
         {
-            GameData.State = GameState.ChoosingAction;
-            ShowActionSelectionScreen();
+            GameData.ApplyTravelCost(_activeTravelCost);
+            _activeTravelCost = null;
+
+            OnActionCompleted(GameAction.Travel);
         }
 
         _map.MarkNodeRoutesAsDiscovered(_player.CurrentNodeId);
@@ -223,7 +252,7 @@ public class Game : MonoBehaviour
             }
         }
 
-        actions.Add(_actionMap[GameAction.Travel]);
+        actions.Add(_actionMap[GameAction.ViewRoutes]);
         return actions;
     }
 
@@ -267,7 +296,7 @@ public class Game : MonoBehaviour
 
     void ApplyAction(GameAction action)
     {
-        if(_actionMap.ContainsKey(action))
+        if(_actionMap.ContainsKey(action) && action != GameAction.ViewRoutes)
         {
             ActionData data = _actionMap[action];
             GameData.Action = action;
@@ -292,12 +321,26 @@ public class Game : MonoBehaviour
                     DoRepair(data);
                     break;
             }
+
+            OnActionCompleted(action);
         }
+        else if(action == GameAction.ViewRoutes)
+        {
+            ShowRouteSelectionScreen();
+
+            GameData.Action = GameAction.Travel;
+            GameData.State = GameState.ConfiguringAction;
+        }
+    }
+    void OnActionCompleted(GameAction action)
+    {
+        Debug.Log($"Action {action} completed");
 
         // Action completed now allow user to select node, retract to home or game over if they cannot travel
-        if(false == _player.TravelActionValid(GameData))
+        string gameOverReason = _player.CanContinue(GameData);
+        if(false == string.IsNullOrEmpty(gameOverReason))
         {
-            GameOver();
+            GameOver(gameOverReason);
         }
         else if(false == GameData.HasOperationTimeLeft)
         {
@@ -305,15 +348,9 @@ public class Game : MonoBehaviour
             ShowRouteSelectionScreen();
             StartAnomaly();
         }
-        else if(action == GameAction.Travel)
-        {
-            GameData.Action = GameAction.Travel;
-            GameData.State = GameState.ConfiguringAction;
-
-            ShowRouteSelectionScreen();
-        }
         else
         {
+            GameData.State = GameState.ChoosingAction;
             ShowActionSelectionScreen();
         }
     }
