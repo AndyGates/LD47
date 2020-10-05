@@ -4,9 +4,9 @@ rules:
   refinery_fuel_per_tick: 1
   
 nodes:
-  - name: Anomaly
+  - name: PROJECT C7-PT
     id: 0
-    type: 1
+    type: 200
     coords:
       x: -5
       y: 0
